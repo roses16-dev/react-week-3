@@ -1,21 +1,4 @@
 {
-  "posts": [
-    {
-      "id": 1,
-      "password": "0000",
-      "category": "javascript",
-      "author": "minjoo",
-      "title": "Array",
-      "content": "Array는 배열입니다.."
-    }
-  ],
-  "comments": [
-    {
-      "id": 1,
-      "postId": 1,
-      "password": "0000",
-      "author": "minjoo",
-      "content": "some comment"
-    }
-  ]
+  "posts": [],
+  "comments": []
 }
