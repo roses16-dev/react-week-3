@@ -1,4 +1,26 @@
 {
-  "posts": [],
-  "comments": []
+  "posts": [
+    {
+      "id": "dwva2r-IK",
+      "author": "Minjoo",
+      "password": "1234",
+      "category": "CATEGORY1",
+      "title": "테스트용 게시글",
+      "content": "배고프고, 춥고, 다리아프고, 맞다 택배 온거 뜯어야겠다."
+    },     {
+      "id": "dwva4r-IK",
+      "author": "Minjoo",
+      "password": "1234",
+      "category": "CATEGORY1",
+      "title": "테스트용 게시글",
+      "content": "배고프고, 춥고, 다리아프고, 맞다 택배 온거 뜯어야겠다."
+    }
+  ],
+  "comments": [{
+    "id": "1234",
+    "commentId": "1234",
+    "password": "1234",
+    "author": "1234",
+    "content": "1234"
+  }]
 }
