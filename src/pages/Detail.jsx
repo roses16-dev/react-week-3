@@ -9,7 +9,7 @@ function Detail(){
 
     return <>
         <Header />
-        {/* <PostDetail id={id}/> */}
+        <PostDetail id={id}/>
     </>
 }
 

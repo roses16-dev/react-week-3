@@ -5,7 +5,7 @@ import axios from 'axios';
 const initialState = {
     posts: [],
     post: {
-        id: 0,
+        id: -1,
         password: "",
         author: "",
         category: "",
@@ -30,12 +30,26 @@ export const __getPosts = createAsyncThunk(
     }
 )
 
+export const __getPost = createAsyncThunk(
+    "posts/getPost",
+    async ( payload, thunkAPI) => {
+        try {
+            const data = await axios.get(`http://localhost:3001/posts/${payload}`)
+            return thunkAPI.fulfillWithValue(data.data)
+        } catch (error) {
+            console.log(`__getPost Error!! ${error}`)
+            return thunkAPI.rejectWithValue(error)
+        }
+    }
+)
+
 const postsSlice = createSlice(
     {
         name: 'posts',
         initialState: initialState,
         reducers: {   },
         extraReducers: {
+            // __getPosts
             [__getPosts.pending]: (state, action) => {
                 state.isLoading = true;
             },
@@ -44,6 +58,19 @@ const postsSlice = createSlice(
                 state.posts = action.payload
             },
             [__getPosts.rejected]: (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            },
+
+            // __getPost
+            [__getPost.pending]: (state, action) => {
+                state.isLoading = true;
+            },
+            [__getPost.fulfilled]: (state, action) => {
+                state.isLoading = false;
+                state.post = action.payload
+            },
+            [__getPost.rejected]: (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
             }
