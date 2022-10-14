@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
+import shortid from 'shortid';
 
 // Initialize
 const initialState = {
@@ -43,11 +44,30 @@ export const __getPost = createAsyncThunk(
     }
 )
 
+export const __writePost = createAsyncThunk(
+    "posts/writePost",
+    async ( payload, thunkAPI ) => {
+        try{
+            const post = {
+                id: shortid.generate(),
+                ...payload
+            }
+            await axios.post(`http://localhost:3001/posts`, post)
+            return thunkAPI.fulfillWithValue(post)
+        } catch (error) {
+            console.log(`__writePost Error!! ${error}`)
+            return thunkAPI.rejectWithValue(error)
+        }
+    }
+)
+
+
+
 const postsSlice = createSlice(
     {
         name: 'posts',
         initialState: initialState,
-        reducers: {   },
+        reducers: { },
         extraReducers: {
             // __getPosts
             [__getPosts.pending]: (state, action) => {
@@ -73,9 +93,22 @@ const postsSlice = createSlice(
             [__getPost.rejected]: (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
-            }
+            },
+
+            // __writePost
+            [__writePost.pending]: (state, action) => {
+                state.isLoading = true;
+            },
+            [__writePost.fulfilled]: (state, action) => {
+                state.posts = [...state.posts, action.payload]
+                state.isLoading = false;
+            },
+            [__writePost.rejected]: (state, action) => {
+                state.error = action.payload;
+                state.isLoading = false;
+            },
         }
     }
 )
 
-export default postsSlice.reducer
+export default postsSlice.reducer;
