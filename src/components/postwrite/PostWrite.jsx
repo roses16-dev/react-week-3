@@ -39,7 +39,7 @@ function PostWrite({ id=false }){
             return
         } 
 
-        if(!/^.{10,}$/gm.test(temp.content.current.value)) {
+        if(!/^.{10,}$/gs.test(temp.content.current.value)) {
             alert('⛔내용은 10자 이상 적어주세요');
             return
         } 
