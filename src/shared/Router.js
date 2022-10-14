@@ -11,6 +11,7 @@ export default function Router(){
             <Routes>
                 <Route path="/" element={<List />}/>
                 <Route path="/write" element={<Write />}/>
+                <Route path="/write/:id" element={<Write />}/>
                 <Route path="/detail" element={<Detail />}/>
                 <Route path="/detail/:id" element={<Detail />}/>
             </Routes>

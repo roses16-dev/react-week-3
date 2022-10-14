@@ -26,13 +26,19 @@ function PostDetail( { id } ){
         }
     }
     
+    const onClickModify = () => {
+
+        navigation(`/write/${id}`)
+    }
+
+
     return <>
         <PostDetailBox>
-            <div>{temp.category}</div>
-            <div>{temp.title}</div>
-            <div>{temp.author}</div>
-            <div>{temp.content}</div>
-            <input type="button" value="수정하기" />
+            <div>카테고리 : {temp.category}</div>
+            <div>제목 : {temp.title}</div>
+            <div>글쓴이 : {temp.author}</div>
+            <div>내용 : {temp.content}</div>
+            <input type="button" value="수정하기" onClick={onClickModify}/>
             <input type="button" value="삭제하기" onClick={onClickDelete}/>
         </PostDetailBox>
     </>
@@ -52,4 +58,9 @@ const PostDetailBox = styled.div`
 
     input{
         margin: 5px;
-    }`
+    }
+`
+
+const PWConfirmBox = `
+    
+`
