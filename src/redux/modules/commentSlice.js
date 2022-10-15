@@ -4,7 +4,7 @@ import axios from "axios";
 const initialState = {
   comment: {
     id: -1,
-    postId: "",
+    post: "",
     password: "",
     author: "",
     content: "",
@@ -21,10 +21,10 @@ export const __getComments = createAsyncThunk(
       console.log("체크", data.data);
       console.log(
         "코멘트데이터",
-        data.data.filter((e) => e.commentId == payload)
+        data.data.filter((e) => e.post == payload)
       );
       return thunkAPI.fulfillWithValue(
-        data.data.filter((e) => e.commentId == payload)
+        data.data.filter((e) => e.post == payload)
       );
     } catch (error) {
       console.log(`__getPosts Error!! ${error}`);
