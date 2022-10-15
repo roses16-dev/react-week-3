@@ -7,7 +7,8 @@
       "category": "CATEGORY1",
       "title": "테스트용 게시글",
       "content": "배고프고, 춥고, 다리아프고, 맞다 택배 온거 뜯어야겠다."
-    },     {
+    },
+    {
       "id": "dwva4r-IK",
       "author": "Minjoo",
       "password": "1234",
@@ -16,11 +17,41 @@
       "content": "배고프고, 춥고, 다리아프고, 맞다 택배 온거 뜯어야겠다."
     }
   ],
-  "comments": [{
-    "id": "1234",
-    "commentId": "1234",
-    "password": "1234",
-    "author": "1234",
-    "content": "1234"
-  }]
+  "comments": [
+    {
+      "id": "dwva4r-IK",
+      "commentId": "1",
+      "password": "1234",
+      "author": "이름",
+      "content": "내용"
+    },
+    {
+      "id": "dwva4r-IK",
+      "commentId": "2",
+      "password": "1234",
+      "author": "이름",
+      "content": "내용"
+    },
+    {
+      "id": "dwva4r-IK",
+      "commentId": "3",
+      "password": "1234",
+      "author": "이름2",
+      "content": "내용2"
+    },
+    {
+      "id": "dwva4r-IK",
+      "commentId": "4",
+      "password": "1234",
+      "author": "이름3",
+      "content": "내용3"
+    },
+    {
+      "id": "2",
+      "commentId": "123",
+      "password": "1234",
+      "author": "12345",
+      "content": "1632"
+    }
+  ]
 }
