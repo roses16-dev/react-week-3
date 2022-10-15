@@ -22,10 +22,21 @@ export const __getPosts = createAsyncThunk(
     "posts/getPosts",
     async ( payload, thunkAPI) => {
         try {
-            const data = await axios.get("http://localhost:3001/posts")
+            const data = payload ? await axios.get(`http://localhost:3001/posts?_page=${payload.page}&_limit=${payload.limit}`) : await axios.get('http://localhost:3001/posts?_page')
             return thunkAPI.fulfillWithValue(data.data)
         } catch (error) {
-            console.log(`__getPosts Error!! ${error}`)
+            return thunkAPI.rejectWithValue(error)
+        }
+    }
+)
+
+export const __accruePostsByPage = createAsyncThunk(
+    "posts/accruePostsByPage",
+    async ( payload, thunkAPI) => {
+        try {
+            const data = await axios.get(`http://localhost:3001/posts?_page=${payload.page}&_limit=${payload.limit}`)
+            return thunkAPI.fulfillWithValue(data.data)
+        } catch (error) {
             return thunkAPI.rejectWithValue(error)
         }
     }
@@ -38,7 +49,6 @@ export const __getPost = createAsyncThunk(
             const data = await axios.get(`http://localhost:3001/posts/${payload}`)
             return thunkAPI.fulfillWithValue(data.data)
         } catch (error) {
-            console.log(`__getPost Error!! ${error}`)
             return thunkAPI.rejectWithValue(error)
         }
     }
@@ -55,7 +65,6 @@ export const __writePost = createAsyncThunk(
             await axios.post(`http://localhost:3001/posts`, post)
             return thunkAPI.fulfillWithValue(post)
         } catch (error) {
-            console.log(`__writePost Error!! ${error}`)
             return thunkAPI.rejectWithValue(error)
         }
     }
@@ -78,6 +87,19 @@ const postsSlice = createSlice(
                 state.posts = action.payload
             },
             [__getPosts.rejected]: (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            },
+
+            // __accruePostsByPage
+            [__accruePostsByPage.pending]: (state, action) => {
+                state.isLoading = true;
+            },
+            [__accruePostsByPage.fulfilled]: (state, action) => {
+                state.isLoading = false;
+                state.posts = [...state.posts, ...action.payload];
+            },
+            [__accruePostsByPage.rejected]: (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
             },
