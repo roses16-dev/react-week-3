@@ -31,13 +31,13 @@ function PostDetail( { id } ){
         navigation(`/write/${id}`)
     }
 
-
+    console.log(temp.content)
     return <>
         <PostDetailBox>
             <div>카테고리 : {temp.category}</div>
             <div>제목 : {temp.title}</div>
             <div>글쓴이 : {temp.author}</div>
-            <div>내용 : {temp.content}</div>
+            <div>{temp.content}</div>
             <input type="button" value="수정하기" onClick={onClickModify}/>
             <input type="button" value="삭제하기" onClick={onClickDelete}/>
         </PostDetailBox>
@@ -54,13 +54,10 @@ const PostDetailBox = styled.div`
     div{
         min-height: 50px;
         margin: 5px;
+        white-space:pre-line;
     }
 
     input{
         margin: 5px;
     }
-`
-
-const PWConfirmBox = `
-    
 `
