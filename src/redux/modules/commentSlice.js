@@ -18,12 +18,13 @@ export const __getComments = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.get(`http://localhost:3001/comments/`);
+      console.log("체크", data.data);
       console.log(
         "코멘트데이터",
-        data.data.filter((e) => e.id == payload)
+        data.data.filter((e) => e.commentId == payload)
       );
       return thunkAPI.fulfillWithValue(
-        data.data.filter((e) => e.id == payload)
+        data.data.filter((e) => e.commentId == payload)
       );
     } catch (error) {
       console.log(`__getPosts Error!! ${error}`);
