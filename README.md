@@ -12,8 +12,8 @@
 
 ## 📌 배운 기술
 ---
-[](https://img.shields.io/badge/-Redux-red?logo=Redux)
-[](https://img.shields.io/badge/-Redux Tool kit-orange?logo=Redux)
-[](https://img.shields.io/badge/-Styled%20Components-yellow?logo=styled-components&logoColor=white)
-[](https://img.shields.io/badge/-Axios-yellowgreen?logo=Axios)
-[](https://img.shields.io/badge/-thunk-green)
+![](https://img.shields.io/badge/-Redux-red?logo=Redux)
+![](https://img.shields.io/badge/-Redux Tool kit-orange?logo=Redux)
+![](https://img.shields.io/badge/-Styled%20Components-yellow?logo=styled-components&logoColor=white)
+![](https://img.shields.io/badge/-Axios-yellowgreen?logo=Axios)
+![](https://img.shields.io/badge/-thunk-green)
