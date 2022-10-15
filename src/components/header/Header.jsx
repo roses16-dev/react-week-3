@@ -1,6 +1,5 @@
-function Header(){
-
-    return <h1>Header</h1>
+function Header() {
+  return <h1>Header123</h1>;
 }
 
-export default Header
+export default Header;
