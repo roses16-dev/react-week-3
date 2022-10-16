@@ -11,12 +11,12 @@ const Comment = ({ id }) => {
   const cmt = useSelector((state) => state.comments.comment);
   const loadingtest = useSelector((state) => state.comments.isLoading);
 
-  console.log("코멘트로딩", loadingtest);
-  console.log("코멘트페이지", cmt);
-
+  // console.log("코멘트로딩", loadingtest);
+  // console.log("코멘트페이지", cmt);
+  const [temp, setTemp]  = useState()
   useEffect(() => {
     dispatch(__getComments(id));
-    console.log("겟코멘트이펙트");
+    // console.log("겟코멘트이펙트");
   }, []);
 
   return (
@@ -34,13 +34,16 @@ const Comment = ({ id }) => {
 export default Comment;
 
 const CommentItem = ({ e, id }) => {
-  console.log("아이딧", e.id);
   //댓글 삭제하기
   const delComment = () => {
-    axios
-      .delete(`http://localhost:3001/comments/${e.id}`)
-      .then(console.log("123"));
+    try{
+      // axios.delete(`http://localhost:3001/posts/${id}`)
+      axios.delete(`http://localhost:3001/comments/${e.id}`, {data: e.id})
+    } catch(error) {
+      console.log(error)
+    } 
   };
+
   return (
     <div className="cmtbox">
       <p className="cmt_name">{e.author}</p>
