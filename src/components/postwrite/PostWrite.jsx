@@ -20,6 +20,10 @@ function PostWrite({ id = false }) {
   };
 
   useEffect(() => {
+    console.log("12345");
+  }, []);
+
+  useEffect(() => {
     if (id) dispatch(__getPost(id));
   }, []);
 

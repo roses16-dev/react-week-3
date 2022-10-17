@@ -4,6 +4,7 @@ import { __getComments } from "../../redux/modules/commentSlice";
 import { useState } from "react";
 import axios from "axios";
 import "./comment.css";
+import NewButton from "../newbutton/NewButton";
 
 const Comment = ({ id }) => {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const Comment = ({ id }) => {
   const [temp, setTemp] = useState();
   useEffect(() => {
     dispatch(__getComments(id));
+
     // console.log("겟코멘트이펙트");
   }, []);
 
@@ -42,6 +44,7 @@ const CommentItem = ({ e, id }) => {
   }, [View]);
 
   const dispatch = useDispatch();
+
   //댓글 삭제하기
   const delComment = () => {
     let test = prompt("비밀번호를 입력해주세요");
@@ -63,16 +66,21 @@ const CommentItem = ({ e, id }) => {
       ? setView(false)
       : alert("비밀번호가 일치하지 않습니다.");
   };
+
   //댓글 수정하기
   const ModifySaveComment = () => {
-    axios
-      .patch(`http://localhost:3001/comments/${e.id}`, {
-        content: commentdesc,
-      })
-      .then(dispatch(__getComments(id)), setView(true))
-      .catch((err) => {
-        console.log(err.response);
-      });
+    if (commentdesc == "") {
+      alert("빈칸은 안돼용");
+    } else {
+      axios
+        .patch(`http://localhost:3001/comments/${e.id}`, {
+          content: commentdesc,
+        })
+        .then(dispatch(__getComments(id)), setView(true))
+        .catch((err) => {
+          console.log(err.response);
+        });
+    }
   };
   const CancelComment = () => {
     setView(true);
@@ -136,16 +144,20 @@ const CommentForm = ({ id }) => {
   //댓글 추가하기 요청
   const addComment = (e) => {
     e.preventDefault();
-    try {
-      axios.post(`http://localhost:3001/comments/`, {
-        post: id,
-        id: Date.now() + "",
-        author: comment.userid,
-        password: comment.userpw,
-        content: comment.desc,
-      });
-    } finally {
-      return setCmt(commentform), dispatch(__getComments(id));
+    if (comment.userid == "" || comment.userpw == "" || comment.desc == "") {
+      alert("빈칸을 확인해주세요.");
+    } else {
+      try {
+        axios.post(`http://localhost:3001/comments/`, {
+          post: id,
+          id: Date.now() + "",
+          author: comment.userid,
+          password: comment.userpw,
+          content: comment.desc,
+        });
+      } finally {
+        return setCmt(commentform), dispatch(__getComments(id));
+      }
     }
   };
 
@@ -181,9 +193,15 @@ const CommentForm = ({ id }) => {
             />
           </div>
         </div>
-        <button className="cmt_btn" onClick={addComment}>
+        <NewButton
+          size="large"
+          color="success"
+          className="cmt_btn"
+          onClick={addComment}
+          value="댓글등록"
+        >
           댓글등록
-        </button>
+        </NewButton>
       </form>
     </>
   );
