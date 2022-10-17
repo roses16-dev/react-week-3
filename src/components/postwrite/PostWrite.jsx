@@ -1,4 +1,5 @@
-import { PostWriteSection } from './styled'
+import { PostWriteSection } from './style'
+import NewButton from '../newbutton/NewButton'
 import { useNavigate } from "react-router-dom"
 import { __writePost, __getPost } from '../../redux/modules/postsSlice'
 import axios from 'axios'
@@ -72,7 +73,8 @@ function PostWrite({ id=false }){
     }  
 
     const onClickCancle = () => {
-        navigate('/');
+        history.back();
+        // navigate('/');
     }
     
     return <>
@@ -105,8 +107,8 @@ function PostWrite({ id=false }){
                         </li>
                     </ul>
                     <div className='btnwrap'>
-                        <input type="submit" value="완료" className="btn"/>
-                        <input type="button" value="취소" className="btn" onClick={onClickCancle}/>
+                        <NewButton type="submit" value="완료"/>
+                        <NewButton value="취소" onClick={onClickCancle}/>
                     </div>
                 </form>
             </PostWriteSection>
