@@ -47,7 +47,7 @@ const CommentItem = ({ e, id }) => {
     let test = prompt("비밀번호를 입력해주세요");
     if (e.password === test) {
       axios
-        .delete(`http://localhost:3001/comments/${e.id}`)
+        .delete(`${process.env.REACT_APP_APIADDRESS}/comments/${e.id}`)
         .then(dispatch(__getComments(id)))
         .chath((err) => {
           console.log(err.response);
@@ -66,7 +66,7 @@ const CommentItem = ({ e, id }) => {
   //댓글 수정하기
   const ModifySaveComment = () => {
     axios
-      .patch(`http://localhost:3001/comments/${e.id}`, {
+      .patch(`${process.env.REACT_APP_APIADDRESS}/comments/${e.id}`, {
         content: commentdesc,
       })
       .then(dispatch(__getComments(id)), setView(true))
@@ -137,7 +137,7 @@ const CommentForm = ({ id }) => {
   const addComment = (e) => {
     e.preventDefault();
     try {
-      axios.post(`http://localhost:3001/comments/`, {
+      axios.post(`${process.env.REACT_APP_APIADDRESS}/comments/`, {
         post: id,
         id: Date.now() + "",
         author: comment.userid,

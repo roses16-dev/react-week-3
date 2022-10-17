@@ -60,7 +60,7 @@ function PostWrite({ id = false }) {
         })
       );
     } else {
-      axios.patch(`http://localhost:3001/posts/${id}`, {
+      axios.patch(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`, {
         ...post,
         author: temp.author.current.value,
         category: temp.category.current.value,
