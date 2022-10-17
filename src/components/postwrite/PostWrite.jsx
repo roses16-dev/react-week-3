@@ -19,64 +19,60 @@ function PostWrite({ id = false }) {
     password: useRef(),
   };
 
-  useEffect(() => {
-    if (id) dispatch(__getPost(id));
-  }, []);
+    useEffect(() => {
+        if(id) dispatch(__getPost(id))
+    }, [])
 
-  const post = useSelector((state) => state.posts.post);
-  console.log(post);
+    const post = useSelector(state => state.posts.post)
+    console.log(post)
+    
 
-  const onSubmitHandler = (event) => {
-    event.preventDefault();
+    const onSubmitHandler = (event) => {
+        event.preventDefault();
+        
+        if(!/^.{2,10}$/.test(temp.author.current.value)) {
+            alert('⛔이름은 2-10자로 적어주세요');
+            return
+        } 
 
-    if (!/^.{2,10}$/.test(temp.author.current.value)) {
-      alert("⛔이름은 2-10자로 적어주세요");
-      return;
+        if(!/^.{2,20}$/.test(temp.title.current.value)) {
+            alert('⛔제목은 2-20자로 적어주세요');
+            return
+        } 
+
+        if(!/^.{10,}$/gs.test(temp.content.current.value)) {
+            alert('⛔내용은 10자 이상 적어주세요');
+            return
+        } 
+
+        if(!/^\d{4,10}$/.test(temp.password.current.value)) {
+            alert('⛔비밀번호는 4-10자 이내 숫자로 적어주세요');
+            return
+        } 
+        
+        if(!id) {
+            dispatch(__writePost({
+                author: temp.author.current.value,
+                category: temp.category.current.value,
+                title: temp.title.current.value,
+                content: temp.content.current.value,
+                password: temp.password.current.value
+            }));
+        } else {
+            axios.patch(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`, {
+                    ...post,
+                    author: temp.author.current.value,
+                    category: temp.category.current.value,
+                    title: temp.title.current.value,
+                    content: temp.content.current.value,
+                    password: temp.password.current.value
+                })
+        }
     }
-
-    if (!/^.{2,20}$/.test(temp.title.current.value)) {
-      alert("⛔제목은 2-20자로 적어주세요");
-      return;
+    
+    const onClickCancle = () => {
+        navigate('/');
     }
-
-    if (!/^.{10,}$/gs.test(temp.content.current.value)) {
-      alert("⛔내용은 10자 이상 적어주세요");
-      return;
-    }
-
-    if (!/^\d{4,10}$/.test(temp.password.current.value)) {
-      alert("⛔비밀번호는 4-10자 이내 숫자로 적어주세요");
-      return;
-    }
-
-    if (!id) {
-      dispatch(
-        __writePost({
-          author: temp.author.current.value,
-          category: temp.category.current.value,
-          title: temp.title.current.value,
-          content: temp.content.current.value,
-          password: temp.password.current.value,
-        })
-      );
-    } else {
-      axios.patch(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`, {
-        ...post,
-        author: temp.author.current.value,
-        category: temp.category.current.value,
-        title: temp.title.current.value,
-        content: temp.content.current.value,
-        password: temp.password.current.value,
-      });
-    }
-
-    navigate("/");
-  };
-
-  const onClickCancle = () => {
-    // history.back();
-    navigate("/");
-  };
 
   return (
     <>
