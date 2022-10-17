@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { __getComments } from "../../redux/modules/commentSlice";
 import { useState } from "react";
 import axios from "axios";
-import "./comment.css";
+import "./style.css";
 import NewButton from "../newbutton/NewButton";
 
 const Comment = ({ id }) => {
@@ -45,7 +45,7 @@ const CommentItem = ({ e, id }) => {
 
   const dispatch = useDispatch();
 
-  //댓글 삭제하기
+  //댓글 삭제하기 버튼
   const delComment = () => {
     let test = prompt("비밀번호를 입력해주세요");
     if (e.password === test) {
@@ -59,7 +59,7 @@ const CommentItem = ({ e, id }) => {
       alert("비밀번호가 일치하지 않습니다.");
     }
   };
-
+  //댓글 수정하기 버튼
   const ModifyComment = () => {
     let pswcheck = prompt("비밀번호를 입력해주세요");
     e.password === pswcheck
@@ -67,7 +67,7 @@ const CommentItem = ({ e, id }) => {
       : alert("비밀번호가 일치하지 않습니다.");
   };
 
-  //댓글 수정하기
+  //댓글 수정하기들어와서 저장하기 버튼
   const ModifySaveComment = () => {
     if (commentdesc == "") {
       alert("빈칸은 안돼용");

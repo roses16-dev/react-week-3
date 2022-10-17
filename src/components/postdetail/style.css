@@ -10,7 +10,9 @@
 .cmt_length {
   position: absolute;
   top: -40px;
+  left: 10px;
 }
+
 .cmtbox {
   display: flex;
   justify-content: space-between;
@@ -89,4 +91,44 @@
   margin-top: 20px;
   margin-left: 90%;
   padding: 5px 10px;
+}
+
+/* 게시글  */
+.container2 {
+  width: 95%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.board_inner {
+  padding: 20px;
+}
+
+.board_title {
+  padding-bottom: 30px;
+  border-bottom: 1px solid #cdcdcd;
+  border-top: 3px solid #333;
+  padding-top: 15px;
+}
+.board_title h5 {
+  font-size: 13px;
+  font-weight: normal;
+}
+.board_title h2 {
+  margin: 20px 0 15px 0;
+  font-size: 28px;
+}
+.board_title h4 {
+  font-size: 18px;
+  font-weight: normal;
+}
+
+.board_desc {
+  margin: 40px 0 50px 0;
+  min-height: 230px;
+  border-bottom: 1px solid #cdcdcd;
+}
+.btnWrap {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
