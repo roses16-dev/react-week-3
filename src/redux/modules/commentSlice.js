@@ -17,7 +17,7 @@ export const __getComments = createAsyncThunk(
   "comments/getcomments",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get(`http://localhost:3001/comments/`);
+      const data = await axios.get(`${process.env.REACT_APP_APIADDRESS}/comments/`);
       console.log("체크", data.data);
       console.log(
         "코멘트데이터",

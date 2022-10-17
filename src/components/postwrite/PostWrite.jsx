@@ -1,84 +1,100 @@
-import { PostWriteSection } from "./styled";
+import { PostWriteSection } from "./style";
 import NewButton from "../newbutton/NewButton";
 import { useNavigate } from "react-router-dom";
 import { __writePost, __getPost } from "../../redux/modules/postsSlice";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function PostWrite({ id = false }) {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-  const temp = {
-    author: useRef(),
-    category: useRef(),
-    title: useRef(),
-    content: useRef(),
-    password: useRef(),
-  };
+    const formRef = {
+        author: useRef(),
+        category: useRef(),
+        title: useRef(),
+        content: useRef(),
+        password: useRef(),
+    };
 
-  useEffect(() => {
-    if (id) dispatch(__getPost(id));
-  }, []);
+    const [ post, setPost] = useState({
+        author: '',
+        category: 'CATEGORY1',
+        title: '',
+        content: '',
+        password: '',
+    });
 
-  const post = useSelector((state) => state.posts.post);
-  console.log(post);
+    const postData = useSelector(state => state.posts.post)
 
-  const onSubmitHandler = (event) => {
-    event.preventDefault();
+    useEffect(() => {
+        if(id) {
+            dispatch(__getPost(id))
+            setPost(postData)
+        } 
+        return () => dispatch(__getPost(id))
+    }, [])
 
-    if (!/^.{2,10}$/.test(temp.author.current.value)) {
-      alert("⛔이름은 2-10자로 적어주세요");
-      return;
+    // 문제발생부분 --------------------------------------------------
+    // useEffect(() => {
+    //     if(id)  dispatch(__getPost(id))
+    //     return  () => dispatch(__getPost())
+    // }, [])
+
+    // const post = useSelector(state => state.posts.post)
+    // ---------------------------------------------------------------
+
+    const onSubmitHandler = (event) => {
+        event.preventDefault();
+        
+        if(!/^.{2,10}$/.test(formRef.author.current.value)) {
+            alert('⛔이름은 2-10자로 적어주세요');
+            return
+        } 
+
+        if(!/^.{2,20}$/.test(formRef.title.current.value)) {
+            alert('⛔제목은 2-20자로 적어주세요');
+            return
+        } 
+
+        if(!/^.{10,}$/gs.test(formRef.content.current.value)) {
+            alert('⛔내용은 10자 이상 적어주세요');
+            return
+        } 
+
+        if(!/^\d{4,10}$/.test(formRef.password.current.value)) {
+            alert('⛔비밀번호는 4-10자 이내 숫자로 적어주세요');
+            return
+        } 
+        
+        if(!id) {
+            dispatch(__writePost({
+                author: formRef.author.current.value,
+                category: formRef.category.current.value,
+                title: formRef.title.current.value,
+                content: formRef.content.current.value,
+                password: formRef.password.current.value
+            }));
+        } else {
+            axios.patch(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`, {
+                    ...post,
+                    author: formRef.author.current.value,
+                    category: formRef.category.current.value,
+                    title: formRef.title.current.value,
+                    content: formRef.content.current.value,
+                    password: formRef.password.current.value
+                })
+        }
+        navigate('/');
     }
 
-    if (!/^.{2,20}$/.test(temp.title.current.value)) {
-      alert("⛔제목은 2-20자로 적어주세요");
-      return;
+    const onClickCancle = () => {
+        navigate('/');
     }
 
-    if (!/^.{10,}$/gs.test(temp.content.current.value)) {
-      alert("⛔내용은 10자 이상 적어주세요");
-      return;
-    }
-
-    if (!/^\d{4,10}$/.test(temp.password.current.value)) {
-      alert("⛔비밀번호는 4-10자 이내 숫자로 적어주세요");
-      return;
-    }
-
-    if (!id) {
-      dispatch(
-        __writePost({
-          author: temp.author.current.value,
-          category: temp.category.current.value,
-          title: temp.title.current.value,
-          content: temp.content.current.value,
-          password: temp.password.current.value,
-        })
-      );
-    } else {
-      axios.patch(`http://localhost:3001/posts/${id}`, {
-        ...post,
-        author: temp.author.current.value,
-        category: temp.category.current.value,
-        title: temp.title.current.value,
-        content: temp.content.current.value,
-        password: temp.password.current.value,
-      });
-    }
-
-    navigate("/");
-  };
-
-  const onClickCancle = () => {
-    // history.back();
-    navigate("/");
-  };
-
-  return (
+    return (
     <>
       <PostWriteSection>
         <form onSubmit={onSubmitHandler}>
@@ -87,7 +103,7 @@ function PostWrite({ id = false }) {
               <div>카테고리</div>
               <select
                 name="category"
-                ref={temp.category}
+                ref={formRef.category}
                 defaultValue={post.category}
                 key={post.category}
               >
@@ -101,7 +117,7 @@ function PostWrite({ id = false }) {
               <input
                 type="text"
                 name="author"
-                ref={temp.author}
+                ref={formRef.author}
                 defaultValue={post.author}
               />
             </li>
@@ -110,7 +126,7 @@ function PostWrite({ id = false }) {
               <input
                 type="text"
                 name="title"
-                ref={temp.title}
+                ref={formRef.title}
                 defaultValue={post.title}
               />
             </li>
@@ -118,13 +134,13 @@ function PostWrite({ id = false }) {
               <div />
               <textarea
                 name="content"
-                ref={temp.content}
+                ref={formRef.content}
                 defaultValue={post.content}
               />
             </li>
             <li>
               <div>비밀번호</div>
-              <input type="password" name="password" ref={temp.password} />
+              <input type="password" name="password" ref={formRef.password} />
             </li>
           </ul>
           <div className="btnwrap">
