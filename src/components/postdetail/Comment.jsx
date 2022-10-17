@@ -13,7 +13,7 @@ const Comment = ({ id }) => {
 
   // console.log("코멘트로딩", loadingtest);
   // console.log("코멘트페이지", cmt);
-  const [temp, setTemp]  = useState()
+  const [temp, setTemp] = useState();
   useEffect(() => {
     dispatch(__getComments(id));
     // console.log("겟코멘트이펙트");
@@ -34,24 +34,84 @@ const Comment = ({ id }) => {
 export default Comment;
 
 const CommentItem = ({ e, id }) => {
+  const [View, setView] = useState(true);
+  const [commentdesc, setcommentdesc] = useState("");
+
+  useEffect(() => {
+    setcommentdesc(e.content);
+  }, [View]);
+
+  const dispatch = useDispatch();
   //댓글 삭제하기
   const delComment = () => {
-    try{
-      // axios.delete(`http://localhost:3001/posts/${id}`)
-      axios.delete(`http://localhost:3001/comments/${e.id}`, {data: e.id})
-    } catch(error) {
-      console.log(error)
-    } 
+    let test = prompt("비밀번호를 입력해주세요");
+    if (e.password === test) {
+      axios
+        .delete(`http://localhost:3001/comments/${e.id}`)
+        .then(dispatch(__getComments(id)))
+        .chath((err) => {
+          console.log(err.response);
+        });
+    } else {
+      alert("비밀번호가 일치하지 않습니다.");
+    }
+  };
+
+  const ModifyComment = () => {
+    let pswcheck = prompt("비밀번호를 입력해주세요");
+    e.password === pswcheck
+      ? setView(false)
+      : alert("비밀번호가 일치하지 않습니다.");
+  };
+  //댓글 수정하기
+  const ModifySaveComment = () => {
+    axios
+      .patch(`http://localhost:3001/comments/${e.id}`, {
+        content: commentdesc,
+      })
+      .then(dispatch(__getComments(id)), setView(true))
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
+  const CancelComment = () => {
+    setView(true);
+  };
+  const ChangeHandler = (e) => {
+    setcommentdesc(e.target.value);
   };
 
   return (
     <div className="cmtbox">
       <p className="cmt_name">{e.author}</p>
-      <p className="cmt_desc">{e.content}</p>
-      <button className="mod_btn">수정</button>
-      <button className="del_btn" onClick={delComment}>
-        삭제
-      </button>
+      {View ? (
+        <p className="cmt_desc">{e.content}</p>
+      ) : (
+        <input
+          type="text"
+          className="cmt_descinput"
+          value={commentdesc}
+          onChange={ChangeHandler}
+        />
+      )}
+      {View ? (
+        <button className="mod_btn" onClick={ModifyComment}>
+          수정
+        </button>
+      ) : (
+        <button className="modsave_btn" onClick={ModifySaveComment}>
+          저장
+        </button>
+      )}
+      {View ? (
+        <button className="del_btn" onClick={delComment}>
+          삭제
+        </button>
+      ) : (
+        <button className="can_btn" onClick={CancelComment}>
+          취소
+        </button>
+      )}
     </div>
   );
 };
@@ -76,16 +136,17 @@ const CommentForm = ({ id }) => {
   //댓글 추가하기 요청
   const addComment = (e) => {
     e.preventDefault();
-
-    axios
-      .post(`http://localhost:3001/comments/`, {
-        commentId: id,
+    try {
+      axios.post(`http://localhost:3001/comments/`, {
+        post: id,
         id: Date.now() + "",
         author: comment.userid,
         password: comment.userpw,
         content: comment.desc,
-      })
-      .then(setCmt(commentform), dispatch(__getComments(id)));
+      });
+    } finally {
+      return setCmt(commentform), dispatch(__getComments(id));
+    }
   };
 
   return (
