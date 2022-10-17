@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import NewButton from "../newbutton/NewButton"
 import { useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect } from "react"
@@ -38,8 +39,10 @@ function PostDetail( { id } ){
             <div>제목 : {temp.title}</div>
             <div>글쓴이 : {temp.author}</div>
             <div>{temp.content}</div>
-            <input type="button" value="수정하기" onClick={onClickModify}/>
-            <input type="button" value="삭제하기" onClick={onClickDelete}/>
+            <div className="btnWrap">
+                <NewButton type="button" value="수정하기" onClick={onClickModify}/>
+                <NewButton type="button" value="삭제하기" onClick={onClickDelete}/>
+            </div>
         </PostDetailBox>
     </>
 }
@@ -59,5 +62,12 @@ const PostDetailBox = styled.div`
 
     input{
         margin: 5px;
+    }
+
+    .btnWrap{
+        width:100%;
+        display:flex;
+        flex-direction: row;
+        justify-content: center;
     }
 `
