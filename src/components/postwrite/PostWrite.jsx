@@ -1,4 +1,4 @@
-import { PostWriteSection } from "./styled";
+import { PostWriteSection } from "./style";
 import NewButton from "../newbutton/NewButton";
 import { useNavigate } from "react-router-dom";
 import { __writePost, __getPost } from "../../redux/modules/postsSlice";
@@ -69,7 +69,7 @@ function PostWrite({ id = false }) {
                 })
         }
     }
-    
+
     const onClickCancle = () => {
         navigate('/');
     }
