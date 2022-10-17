@@ -15,6 +15,8 @@ function PostDetail( { id } ){
 
     useEffect( () => {
         dispatch(__getPost(id))
+
+        return () => dispatch(__getPost())
     }, [])
 
     const onClickDelete = () => {
@@ -29,7 +31,7 @@ function PostDetail( { id } ){
     
     const onClickModify = () => {
 
-        navigation(`/write/${id}`)
+        navigation(`/modify/${id}`)
     }
 
     console.log(temp.content)

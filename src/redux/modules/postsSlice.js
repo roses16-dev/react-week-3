@@ -9,7 +9,7 @@ const initialState = {
         id: -1,
         password: "",
         author: "",
-        category: "",
+        category: "CATEGORY1",
         title: "",
         content: ""
     },
@@ -46,8 +46,9 @@ export const __getPost = createAsyncThunk(
     "posts/getPost",
     async ( payload, thunkAPI) => {
         try {
-            const data = await axios.get(`${process.env.REACT_APP_APIADDRESS}/posts/${payload}`)
-            return thunkAPI.fulfillWithValue(data.data)
+            const data = payload ? await axios.get(`${process.env.REACT_APP_APIADDRESS}/posts/${payload}`) : initialState.post;
+            if(payload) return thunkAPI.fulfillWithValue(data.data)
+            else return thunkAPI.fulfillWithValue(data)
         } catch (error) {
             return thunkAPI.rejectWithValue(error)
         }
