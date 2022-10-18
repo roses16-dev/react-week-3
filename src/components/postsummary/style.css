@@ -1,0 +1,36 @@
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.board_table table {
+  border-top: 2px solid #ef6c00;
+  border-bottom: 2px solid #ef6c00;
+}
+.board_table td,
+.board_table th {
+  padding: 18px 5px;
+  border-bottom: 1px solid #ff6d00;
+}
+.board_table th {
+  font-weight: 500;
+  background-color: #ffcc80;
+  color: #000;
+}
+.board_table td {
+  text-align: center;
+}
+.board_table tr:hover {
+  background-color: #ffcc80;
+  color: #fff;
+}
+.board_desc_title {
+  cursor: pointer;
+}
+.write_btn {
+  display: flex;
+  justify-content: flex-end;
+}

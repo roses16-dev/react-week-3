@@ -19,6 +19,12 @@ function PostWrite({ id = false }) {
         password: useRef(),
     };
 
+
+
+  useEffect(() => {
+    if (id) dispatch(__getPost(id));
+  }, []);
+
     const [ post, setPost] = useState({
         author: '',
         category: 'CATEGORY1',
@@ -26,6 +32,7 @@ function PostWrite({ id = false }) {
         content: '',
         password: '',
     });
+
 
     const postData = useSelector(state => state.posts.post)
 
