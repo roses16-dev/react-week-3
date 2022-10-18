@@ -6,6 +6,7 @@ function NewButton({
   color,
   type = "button",
   value = "",
+  variant,
   onClick = () => {},
 }) {
   return (
@@ -14,7 +15,7 @@ function NewButton({
         size={size}
         color={color}
         type={type}
-        variant="text"
+        variant={variant}
         onClick={onClick}
       >
         {value}
