@@ -1,43 +1,45 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const PostWriteSection = styled.div`
-width: 100%;
-margin: 0px auto;
-div{
+  width: 100%;
+  margin: 0px auto;
+  div {
     display: inline-block;
     width: 80px;
-}
-ul{
+  }
+  ul {
     list-style: none;
     margin: 0px;
     padding: 0px;
 
     input {
-        width: 95% ;
+      width: 95%;
     }
-}
-li{
+  }
+  li {
     width: 100%;
     margin: 0px;
     padding: 0px;
-}
+  }
 
-textarea{
+  textarea {
     width: 95%;
     min-height: 400px;
     margin: 5px 0px;
     resize: none;
-}
+  }
 
-.btn{
+  .btn {
     width: 100px;
     margin: 5px;
-}
+  }
 
-.btnwrap{
+  .btnwrap {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
-}
-`
+    margin-top: 20px;
+    gap: 20px;
+  }
+`;
