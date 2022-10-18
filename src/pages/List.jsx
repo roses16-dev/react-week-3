@@ -7,6 +7,7 @@ import useInfiniteScroll from "../hooks/useInfiniteScroll";
 import Header from "../components/header/Header";
 
 function List() {
+
     const dispatch = useDispatch();
 
     const FIRST_POST_LIMIT = 20;
@@ -29,6 +30,7 @@ function List() {
         } finally {
             setIsFetching(false);
         }
+
     }
 
         useEffect(() => {

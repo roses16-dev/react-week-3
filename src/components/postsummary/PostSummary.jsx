@@ -12,6 +12,8 @@ function PostSummary({ post }) {
       <div className="container">
         <div className="write_btn">
           <NewButton
+            size="large"
+            variant="outlined"
             value="글쓰기"
             onClick={() => {
               navigator("/write");
