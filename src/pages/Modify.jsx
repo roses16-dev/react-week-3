@@ -3,12 +3,14 @@ import Header from "../components/header/Header"
 
 import { useParams } from "react-router-dom"
 
-function Write(){
+function Modify(){
+    const { id } = useParams()
 
-    return <>
+    return  <>
             <Header />
-            <PostWrite />
-            </>
+            <PostWrite id = {id}/>
+        </>
+
 }
 
-export default Write
+export default Modify
