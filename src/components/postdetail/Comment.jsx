@@ -50,7 +50,7 @@ const CommentItem = ({ e, id }) => {
     let test = prompt("비밀번호를 입력해주세요");
     if (e.password === test) {
       axios
-        .delete(`http://localhost:3001/comments/${e.id}`)
+        .delete(`${process.env.REACT_APP_APIADDRESS}/comments/${e.id}`)
         .then(dispatch(__getComments(id)))
         .chath((err) => {
           console.log(err.response);
@@ -73,7 +73,7 @@ const CommentItem = ({ e, id }) => {
       alert("빈칸은 안돼용");
     } else {
       axios
-        .patch(`http://localhost:3001/comments/${e.id}`, {
+        .patch(`${process.env.REACT_APP_APIADDRESS}/comments/${e.id}`, {
           content: commentdesc,
         })
         .then(dispatch(__getComments(id)), setView(true))
@@ -144,11 +144,12 @@ const CommentForm = ({ id }) => {
   //댓글 추가하기 요청
   const addComment = (e) => {
     e.preventDefault();
+
     if (comment.userid == "" || comment.userpw == "" || comment.desc == "") {
       alert("빈칸을 확인해주세요.");
     } else {
       try {
-        axios.post(`http://localhost:3001/comments/`, {
+        axios.post(`${process.env.REACT_APP_APIADDRESS}/comments/`, {
           post: id,
           id: Date.now() + "",
           author: comment.userid,
