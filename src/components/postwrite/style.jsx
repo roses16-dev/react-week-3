@@ -29,15 +29,12 @@ textarea{
     resize: none;
 }
 
-.btn{
-    width: 100px;
-    margin: 5px;
-}
-
 .btnwrap{
+    margin: 10px;
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
+    gap: 10px;
 }
 `
