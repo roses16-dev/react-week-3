@@ -13,28 +13,23 @@ function PostDetail({ id }) {
 
   const temp = useSelector((state) => state.posts.post);
 
+  useEffect(() => {
+    dispatch(__getPost(id));
 
-    useEffect( () => {
-        dispatch(__getPost(id))
+    return () => dispatch(__getPost());
+  }, []);
 
-        return () => dispatch(__getPost())
-    }, [])
-
-    const onClickDelete = () => {
-        try{
-            axios.delete(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`)
-        } catch (error) {
-            console.log(`Detail : onClickDelete에서 오류 ${error}`)
-        } finally {
-            navigation('/')
-        }
-
+  const onClickDelete = () => {
+    try {
+      axios.delete(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`);
+    } catch (error) {
+      console.log(`Detail : onClickDelete에서 오류 ${error}`);
+    } finally {
+      navigation("/");
     }
   };
-
-
   const onClickModify = () => {
-    navigation(`/write/${id}`);
+    navigation(`/Modify/${id}`);
   };
 
   console.log(temp.content);
