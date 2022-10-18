@@ -73,7 +73,7 @@ const CommentItem = ({ e, id }) => {
       alert("빈칸은 안돼용");
     } else {
       axios
-        .patch(`http://localhost:3001/comments/${e.id}`, {
+        .patch(`${process.env.REACT_APP_APIADDRESS}/comments/${e.id}`, {
           content: commentdesc,
         })
         .then(dispatch(__getComments(id)), setView(true))
@@ -149,7 +149,7 @@ const CommentForm = ({ id }) => {
       alert("빈칸을 확인해주세요.");
     } else {
       try {
-        axios.post(`http://localhost:3001/comments/`, {
+        axios.post(`${process.env.REACT_APP_APIADDRESS}/comments/`, {
           post: id,
           id: Date.now() + "",
           author: comment.userid,
@@ -159,7 +159,6 @@ const CommentForm = ({ id }) => {
       } finally {
         return setCmt(commentform), dispatch(__getComments(id));
       }
-
     }
   };
 
