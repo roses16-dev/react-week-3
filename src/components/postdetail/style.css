@@ -1,6 +1,7 @@
 /* 댓글리스트 */
 .comment {
-  width: 900px;
+  width: 95%;
+  max-width: 900px;
   margin: 0 auto;
   margin-top: 50px;
   border-top: 2px solid #333;
@@ -21,7 +22,10 @@
   border-bottom: dotted 1px rgba(0, 0, 0, 0.15);
   padding-bottom: 5px;
 }
-
+.cmt_name,
+.cmt_desc {
+  font-size: 1rem;
+}
 .cmtbox p {
   display: inline;
 }
@@ -34,20 +38,10 @@
 .modsave_btn {
   margin: 0 20px;
 }
-.del_btn,
-.mod_btn,
-.modsave_btn,
-.can_btn {
-  width: 60px;
-  height: 30px;
-  border-radius: 5px;
-  border: none;
-}
-.del_btn:hover,
-.mod_btn:hover {
-}
-.del_btn:active,
-.mod_btn:active {
+.cmtbtn_wrap {
+  display: flex;
+  gap: 10px;
+  margin-left: 20px;
 }
 
 /* 댓글작성폼 */
@@ -92,7 +86,10 @@
   margin-left: 90%;
   padding: 5px 10px;
 }
-
+.cmt_addbtn {
+  margin-top: 20px;
+  text-align: center;
+}
 /* 게시글  */
 .container2 {
   width: 95%;

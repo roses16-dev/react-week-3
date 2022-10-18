@@ -102,24 +102,40 @@ const CommentItem = ({ e, id }) => {
           onChange={ChangeHandler}
         />
       )}
-      {View ? (
-        <button className="mod_btn" onClick={ModifyComment}>
-          수정
-        </button>
-      ) : (
-        <button className="modsave_btn" onClick={ModifySaveComment}>
-          저장
-        </button>
-      )}
-      {View ? (
-        <button className="del_btn" onClick={delComment}>
-          삭제
-        </button>
-      ) : (
-        <button className="can_btn" onClick={CancelComment}>
-          취소
-        </button>
-      )}
+      <div className="cmtbtn_wrap">
+        {View ? (
+          <NewButton
+            variant="outlined"
+            size="small"
+            value="수정"
+            onClick={ModifyComment}
+          >
+            수정
+          </NewButton>
+        ) : (
+          <NewButton
+            variant="outlined"
+            value="저장"
+            onClick={ModifySaveComment}
+          >
+            저장
+          </NewButton>
+        )}
+        {View ? (
+          <NewButton
+            color="secondary"
+            variant="outlined"
+            value="삭제"
+            onClick={delComment}
+          >
+            삭제
+          </NewButton>
+        ) : (
+          <NewButton variant="outlined" value="취소" onClick={CancelComment}>
+            취소
+          </NewButton>
+        )}
+      </div>
     </div>
   );
 };
@@ -194,15 +210,16 @@ const CommentForm = ({ id }) => {
             />
           </div>
         </div>
-        <NewButton
-          size="large"
-          color="success"
-          className="cmt_btn"
-          onClick={addComment}
-          value="댓글등록"
-        >
-          댓글등록
-        </NewButton>
+        <div className="cmt_addbtn">
+          <NewButton
+            size="large"
+            variant="outlined"
+            onClick={addComment}
+            value="댓글등록"
+          >
+            댓글등록
+          </NewButton>
+        </div>
       </form>
     </>
   );
