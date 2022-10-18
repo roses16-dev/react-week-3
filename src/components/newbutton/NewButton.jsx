@@ -5,7 +5,7 @@ function NewButton({
   size,
   color,
   type = "button",
-  value = "",
+  value = "i Am a button",
   variant,
   onClick = () => {},
 }) {
