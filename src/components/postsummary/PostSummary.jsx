@@ -8,7 +8,7 @@ function PostSummary({ post }) {
 
   return (
     <>
-      {/* <PostSummaryBox onClick={onClickHandler}> */}
+
       <div className="container">
         <div className="write_btn">
           <NewButton
@@ -44,10 +44,6 @@ function PostSummary({ post }) {
           </table>
         </div>
       </div>
-
-      {/* <span className="spanTitle">{post.title}</span>
-            <span className="spanAuthor">{post.author}</span> */}
-      {/* </PostSummaryBox> */}
     </>
   );
 }
@@ -67,7 +63,7 @@ const Postlistitem = ({ el, i }) => {
         {el.title}
       </td>
       <td>{el.author}</td>
-      <td>0</td>
+      <td>{el?.hits}</td>
     </tr>
   );
 };
