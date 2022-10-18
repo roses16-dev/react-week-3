@@ -126,6 +126,7 @@
   margin: 40px 0 50px 0;
   min-height: 230px;
   border-bottom: 1px solid #cdcdcd;
+  white-space: pre-line;
 }
 .btnWrap {
   display: flex;
