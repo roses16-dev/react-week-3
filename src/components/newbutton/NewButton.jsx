@@ -1,10 +1,10 @@
 import { Button } from "@material-ui/core";
+import { createTheme } from "@mui/material/styles";
 
 function NewButton({
-  variant,
   size,
   color,
-  type = "",
+  type = "button",
   value = "",
   onClick = () => {},
 }) {
@@ -14,7 +14,7 @@ function NewButton({
         size={size}
         color={color}
         type={type}
-        variant={variant}
+        variant="text"
         onClick={onClick}
       >
         {value}
