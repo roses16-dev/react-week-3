@@ -15,20 +15,21 @@ function PostDetail({ id }) {
 
   useEffect(() => {
     dispatch(__getPost(id));
+
+    return () => dispatch(__getPost());
   }, []);
 
   const onClickDelete = () => {
     try {
-      axios.delete(`http://localhost:3001/posts/${id}`);
+      axios.delete(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`);
     } catch (error) {
       console.log(`Detail : onClickDelete에서 오류 ${error}`);
     } finally {
       navigation("/");
     }
   };
-
   const onClickModify = () => {
-    navigation(`/write/${id}`);
+    navigation(`/Modify/${id}`);
   };
 
   console.log(temp.content);

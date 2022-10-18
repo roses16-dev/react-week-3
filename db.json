@@ -1,14 +1,6 @@
 {
   "posts": [
     {
-      "id": "dwvwerwbK",
-      "author": "Minjoo",
-      "password": "1234",
-      "category": "CATEGORY1",
-      "title": "테스트용 게시글2",
-      "content": "배고프고, 춥고, 다리아프고, 맞다 택배 온거 뜯어야겠다."
-    },
-    {
       "id": "d55arrteK",
       "author": "Minjoo",
       "password": "1234",
@@ -54,14 +46,6 @@
       "password": "1234",
       "category": "CATEGORY1",
       "title": "테스트용 게시글8",
-      "content": "배고프고, 춥고, 다리아프고, 맞다 택배 온거 뜯어야겠다."
-    },
-    {
-      "id": "dwvby34IK",
-      "author": "Minjoo",
-      "password": "1234",
-      "category": "CATEGORY1",
-      "title": "테스트용 게시글9",
       "content": "배고프고, 춥고, 다리아프고, 맞다 택배 온거 뜯어야겠다."
     },
     {
@@ -448,6 +432,27 @@
       "author": "444",
       "password": "122",
       "content": "123233"
+    },
+    {
+      "post": "d55arrteK",
+      "id": "1666066115221",
+      "author": "123",
+      "password": "123",
+      "content": "123"
+    },
+    {
+      "post": "d55arrteK",
+      "id": "1666066118468",
+      "author": "1232",
+      "password": "3123",
+      "content": "12313"
+    },
+    {
+      "post": "d55arrteK",
+      "id": "1666066120844",
+      "author": "123",
+      "password": "123",
+      "content": "123"
     }
   ]
 }
