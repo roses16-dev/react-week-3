@@ -151,8 +151,8 @@ function PostWrite({ id = false }) {
             </li>
           </ul>
           <div className="btnwrap">
-            <NewButton type="submit" value="완료" />
-            <NewButton value="취소" onClick={onClickCancle} />
+            <NewButton type="submit" value="완료" variant="outlined"style={{margin:10}}/>
+            <NewButton value="취소" variant="outlined" onClick={onClickCancle} />
           </div>
         </form>
       </PostWriteSection>
