@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { __getComments } from "../../redux/modules/commentSlice";
 import { useState } from "react";
 import axios from "axios";
 import "./style.css";
 import NewButton from "../newbutton/NewButton";
+import { Box, Modal } from "@material-ui/core";
 
 const Comment = ({ id }) => {
   const dispatch = useDispatch();
@@ -47,11 +48,13 @@ const CommentItem = ({ e, id }) => {
 
   //댓글 삭제하기 버튼
   const delComment = () => {
-    let test = prompt("비밀번호를 입력해주세요");
-    if (e.password === test) {
+    console.log(deletePwRef.current.value);
+    if (e.password === deletePwRef.current.value) {
       axios
         .delete(`${process.env.REACT_APP_APIADDRESS}/comments/${e.id}`)
-        .then(dispatch(__getComments(id)))
+        .then((response) => {
+          dispatch(__getComments(id));
+        })
         .chath((err) => {
           console.log(err.response);
         });
@@ -60,11 +63,13 @@ const CommentItem = ({ e, id }) => {
     }
   };
   //댓글 수정하기 버튼
-  const ModifyComment = () => {
-    let pswcheck = prompt("비밀번호를 입력해주세요");
-    e.password === pswcheck
-      ? setView(false)
-      : alert("비밀번호가 일치하지 않습니다.");
+  const onClickModify = () => {
+    console.log(modifyPwRef.current.value);
+    if (e.password == modifyPwRef.current.value) {
+      return setView(false), setOpenModifyModal(false);
+    } else {
+      alert("비밀번호가 달라요.");
+    }
   };
 
   //댓글 수정하기들어와서 저장하기 버튼
@@ -76,18 +81,46 @@ const CommentItem = ({ e, id }) => {
         .patch(`${process.env.REACT_APP_APIADDRESS}/comments/${e.id}`, {
           content: commentdesc,
         })
-        .then(dispatch(__getComments(id)), setView(true))
+        .then((response) => {
+          setView(true);
+          dispatch(__getComments(id));
+        })
         .catch((err) => {
           console.log(err.response);
         });
     }
   };
+
   const CancelComment = () => {
     setView(true);
   };
+
   const ChangeHandler = (e) => {
     setcommentdesc(e.target.value);
   };
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  const [openModifyModal, setOpenModifyModal] = useState(false);
+  const handleOpenModifyModal = () => setOpenModifyModal(true);
+  const handleCloseModifyModal = () => setOpenModifyModal(false);
+
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const handleOpenDeleteModal = () => setOpenDeleteModal(true);
+  const handleCloseDeleteModal = () => setOpenDeleteModal(false);
+
+  const modifyPwRef = useRef();
+  const deletePwRef = useRef();
 
   return (
     <div className="cmtbox">
@@ -108,7 +141,7 @@ const CommentItem = ({ e, id }) => {
             variant="outlined"
             size="small"
             value="수정"
-            onClick={ModifyComment}
+            onClick={handleOpenModifyModal}
           >
             수정
           </NewButton>
@@ -121,12 +154,23 @@ const CommentItem = ({ e, id }) => {
             저장
           </NewButton>
         )}
+        <Modal
+          open={openModifyModal}
+          onClose={handleCloseModifyModal}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            비밀번호 : <input type="password" ref={modifyPwRef} />{" "}
+            <NewButton type="button" value="확인" onClick={onClickModify} />
+          </Box>
+        </Modal>
         {View ? (
           <NewButton
             color="secondary"
             variant="outlined"
             value="삭제"
-            onClick={delComment}
+            onClick={handleOpenDeleteModal}
           >
             삭제
           </NewButton>
@@ -135,6 +179,17 @@ const CommentItem = ({ e, id }) => {
             취소
           </NewButton>
         )}
+        <Modal
+          open={openDeleteModal}
+          onClose={handleCloseDeleteModal}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            비밀번호 : <input type="password" ref={deletePwRef} />{" "}
+            <NewButton type="button" value="확인" onClick={delComment} />
+          </Box>
+        </Modal>
       </div>
     </div>
   );
@@ -164,17 +219,19 @@ const CommentForm = ({ id }) => {
     if (comment.userid == "" || comment.userpw == "" || comment.desc == "") {
       alert("빈칸을 확인해주세요.");
     } else {
-      try {
-        axios.post(`${process.env.REACT_APP_APIADDRESS}/comments/`, {
+      axios
+        .post(`${process.env.REACT_APP_APIADDRESS}/comments/`, {
           post: id,
           id: Date.now() + "",
           author: comment.userid,
           password: comment.userpw,
           content: comment.desc,
+        })
+        .then((response) => {
+          console.log("나리스폰이야", response);
+          setCmt(commentform);
+          dispatch(__getComments(id));
         });
-      } finally {
-        return setCmt(commentform), dispatch(__getComments(id));
-      }
     }
   };
 
