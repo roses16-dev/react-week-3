@@ -15,41 +15,28 @@ function PostDetail({ id }) {
 
   const temp = useSelector((state) => state.posts.post);
 
-  useEffect(() => {
-    dispatch(__getPost(id));
-   return () => dispatch(__getPost());
-  }, []);
+    useEffect(() => {
+      dispatch(__getPost(id));
+     return () => dispatch(__getPost());
+    }, []);
   
-    useEffect( () => {
-        dispatch(__getPost(id))
-
-        return () => dispatch(__getPost())
-    }, [])
-
     const modifyPwRef = useRef();
     const deletePwRef = useRef();
 
-    const onClickDelete = () => {
-        if(deletePwRef.current.value !== temp.password) {
-            alert('비밀번호를 다시 확인해주세요.')
-            return;
-        }
-        try{
-            axios.delete(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`)
-        } catch (error) {
-            console.log(`Detail : onClickDelete에서 오류 ${error}`)
-        } finally {
-            navigation('/')
-        }
-
   const onClickDelete = () => {
-    try {
-      axios.delete(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`);
-    } catch (error) {
-      console.log(`Detail : onClickDelete에서 오류 ${error}`);
-    } finally {
-      navigation("/");
-    }
+      if(deletePwRef.current.value !== temp.password) {
+          alert('비밀번호를 다시 확인해주세요.')
+          return;
+      }
+      try{
+          axios.delete(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`)
+      } catch (error) {
+          console.log(`Detail : onClickDelete에서 오류 ${error}`)
+      } finally {
+          navigation('/')
+      }
+  }
+  
     const onClickModify = (event) => {
         if(modifyPwRef.current.value !== temp.password) {
             alert('비밀번호를 다시 확인해주세요.')
