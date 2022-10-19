@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
 import shortid from 'shortid';
 
-// Initialize
 const initialState = {
     posts: [],
     post: {
@@ -13,7 +12,6 @@ const initialState = {
         title: "",
         content: ""
     },
-    // Loading 상황에 따라 값을 바꿔주어 re-rendering을 발생시킨다.
     isLoading: false,
     error: null
 }
@@ -22,7 +20,7 @@ export const __getPosts = createAsyncThunk(
     "posts/getPosts",
     async ( payload, thunkAPI) => {
         try {
-            const data = payload ? await axios.get(`${process.env.REACT_APP_APIADDRESS}/posts?_page=${payload.page}&_limit=${payload.limit}`) : await axios.get(`${process.env.REACT_APP_APIADDRESS}/posts?_page`)
+            const data = payload ? await axios.get(`${process.env.REACT_APP_APIADDRESS}/posts?_sort=postingTime&_order=desc&_page=${payload.page}&_limit=${payload.limit}`) : await axios.get(`${process.env.REACT_APP_APIADDRESS}/posts?_page`)
             return thunkAPI.fulfillWithValue(data.data)
         } catch (error) {
             return thunkAPI.rejectWithValue(error)
@@ -34,7 +32,7 @@ export const __accruePostsByPage = createAsyncThunk(
     "posts/accruePostsByPage",
     async ( payload, thunkAPI) => {
         try {
-            const data = await axios.get(`${process.env.REACT_APP_APIADDRESS}/posts?_page=${payload.page}&_limit=${payload.limit}`)
+            const data = await axios.get(`${process.env.REACT_APP_APIADDRESS}/posts?_sort=postingTime&_order=desc&_page=${payload.page}&_limit=${payload.limit}`)
             return thunkAPI.fulfillWithValue(data.data)
         } catch (error) {
             return thunkAPI.rejectWithValue(error)
@@ -61,7 +59,9 @@ export const __writePost = createAsyncThunk(
         try{
             const post = {
                 id: shortid.generate(),
-                ...payload
+                ...payload,
+                hits: 0,
+                postingTime: Date.now()
             }
             await axios.post(`${process.env.REACT_APP_APIADDRESS}/posts`, post)
             return thunkAPI.fulfillWithValue(post)
@@ -70,8 +70,6 @@ export const __writePost = createAsyncThunk(
         }
     }
 )
-
-
 
 const postsSlice = createSlice(
     {
@@ -123,7 +121,7 @@ const postsSlice = createSlice(
                 state.isLoading = true;
             },
             [__writePost.fulfilled]: (state, action) => {
-                state.posts = [...state.posts, action.payload]
+                state.posts = [action.payload, ...state.posts]
                 state.isLoading = false;
             },
             [__writePost.rejected]: (state, action) => {
