@@ -73,19 +73,20 @@ function PostDetail({ id }) {
     axios.patch(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`, { hits: temp.hits + 1 }, [temp])
   }, [temp])
 
+
   return (
     <>
-      <div className="container2">
-        <div className="board_inner">
-          <div className="board_title">
+      <div className="Container2">
+        <div className="BoardInner">
+          <div className="BoardTitle">
             <h5>{temp.category}</h5>
             <h2>{temp.title}</h2>
             <h4>{temp.author}</h4>
           </div>
-          <div className="board_desc">
+          <div className="BoardDesc">
             <p>{temp.content}</p>
           </div>
-          <div className="btnWrap">
+          <div className="PostDetailBtnWrap">
             <NewButton
               color="inherit"
               variant="outlined"
