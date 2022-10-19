@@ -44,6 +44,7 @@ const CommentItem = ({ element, id }) => {
   const dispatch = useDispatch();
 
   //댓글 삭제하기 버튼
+
   const DelComment = () => {
     if (element.password === deletePwRef.current.value) {
       axios
@@ -52,13 +53,16 @@ const CommentItem = ({ element, id }) => {
           dispatch(__getComments(id));
         })
         .chath((err) => {});
+
     } else {
       alert("비밀번호가 일치하지 않습니다.");
     }
   };
   //댓글 수정하기 버튼
   const onClickModify = () => {
+
     if (element.password == modifyPwRef.current.value) {
+
       return setView(false), setOpenModifyModal(false);
     } else {
       alert("비밀번호가 달라요.");
@@ -78,7 +82,9 @@ const CommentItem = ({ element, id }) => {
           setView(true);
           dispatch(__getComments(id));
         })
+
         .catch((err) => {});
+
     }
   };
 
@@ -178,7 +184,9 @@ const CommentItem = ({ element, id }) => {
         >
           <Box sx={style}>
             비밀번호 : <input type="password" ref={deletePwRef} />{" "}
+
             <NewButton type="button" value="확인" onClick={DelComment} />
+
           </Box>
         </Modal>
       </div>

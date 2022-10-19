@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import NewButton from "../newbutton/NewButton";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -10,85 +9,70 @@ import "./style.css";
 import { Box, Modal } from "@material-ui/core";
 
 function PostDetail({ id }) {
-  const navigation = useNavigate();
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(__getPost(id));
-    return () => {
-      dispatch(__getPost());
+    const navigation = useNavigate();
+    const dispatch = useDispatch();
+    
+    const temp = useSelector((state) => state.posts.post);
+
+    // Delete Modal 및 onClick Event 함수
+    const deletePwRef = useRef();
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const handleOpenDeleteModal = () => setOpenDeleteModal(true);
+    const handleCloseDeleteModal = () => setOpenDeleteModal(false);
+
+    const onClickDelete = () => {
+        if (deletePwRef.current.value !== temp.password) {
+            alert("비밀번호를 다시 확인해주세요.");
+            return;
+        }
+        try {
+            axios.delete(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`);
+        } catch (error) {
+            console.log(`Detail : onClickDelete에서 오류 ${error}`);
+        } finally {
+            navigation("/");
+        }
     };
-  }, []);
+
+    // Modify Modal 및 onClick Event 함수
+    const modifyPwRef = useRef();
+    const [openModifyModal, setOpenModifyModal] = useState(false);
+    const handleOpenModifyModal = () => setOpenModifyModal(true);
+    const handleCloseModifyModal = () => setOpenModifyModal(false);
+
+    const onClickModify = (event) => {
+        if (modifyPwRef.current.value !== temp.password) {
+            alert("비밀번호를 다시 확인해주세요.");
+            return;
+        }
+        navigation(`/modify/${id}`);
+    };
+
+    // Modal Style
+    const style = {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: 400,
+        bgcolor: "background.paper",
+        border: "2px solid #000",
+        boxShadow: 24,
+        p: 4,
+    };
 
   useEffect(() => {
-    if (temp.id !== -1)
-      axios.patch(
-        `${process.env.REACT_APP_APIADDRESS}/posts/${id}`,
-        { hits: temp.hits + 1 },
-        [temp]
-      );
-  });
-
-  const temp = useSelector((state) => state.posts.post);
-
-  console.log(temp);
-  const addHits = () => {
-    console.log("실행");
-    try {
-      axios.patch(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`, {
-        hits: 1 + 1,
-      });
-    } catch (error) {
-      console.log(error);
+    dispatch(__getPost(id))
+    return () => {
+        dispatch(__getPost());
     }
-  };
+  }, []);
+  
+  useEffect(() => {
+    axios.patch(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`, { hits: temp.hits + 1 }, [temp])
+  }, [temp])
 
-  // Delete Modal 및 onClick Event 함수
-  const deletePwRef = useRef();
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const handleOpenDeleteModal = () => setOpenDeleteModal(true);
-  const handleCloseDeleteModal = () => setOpenDeleteModal(false);
-
-  const onClickDelete = () => {
-    if (deletePwRef.current.value !== temp.password) {
-      alert("비밀번호를 다시 확인해주세요.");
-      return;
-    }
-    try {
-      axios.delete(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`);
-    } catch (error) {
-      console.log(`Detail : onClickDelete에서 오류 ${error}`);
-    } finally {
-      navigation("/");
-    }
-  };
-
-  // Modify Modal 및 onClick Event 함수
-  const modifyPwRef = useRef();
-  const [openModifyModal, setOpenModifyModal] = useState(false);
-  const handleOpenModifyModal = () => setOpenModifyModal(true);
-  const handleCloseModifyModal = () => setOpenModifyModal(false);
-
-  const onClickModify = (event) => {
-    if (modifyPwRef.current.value !== temp.password) {
-      alert("비밀번호를 다시 확인해주세요.");
-      return;
-    }
-    navigation(`/modify/${id}`);
-  };
-
-  // Modal Style
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
 
   return (
     <>
