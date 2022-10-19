@@ -10,12 +10,19 @@ function List() {
 
     const dispatch = useDispatch();
 
-    const FIRST_POST_LIMIT = 20;
-    const ADD_POST_LIMIT = 10;
+    const FIRST_POST_LIMIT = 15;
+    const ADD_POST_LIMIT = 5;
+
     const [isFetching, setIsFetching] = useInfiniteScroll(updateFunctionOnScroll);
-    const [pageNumber, setPageNumber] = useState(2);
+    const [pageNumber, setPageNumber] = useState(1);
 
     const posts = useSelector((state) => state.posts.posts);
+
+    useEffect(() => {
+        dispatch(__getPosts({ page: pageNumber, limit: FIRST_POST_LIMIT }));
+        setPageNumber(pageNumber + (FIRST_POST_LIMIT/ADD_POST_LIMIT))
+        updateFunctionOnScroll();
+    }, []);
 
     function updateFunctionOnScroll() {
         try {
@@ -30,13 +37,7 @@ function List() {
         } finally {
             setIsFetching(false);
         }
-
     }
-
-        useEffect(() => {
-        dispatch(__getPosts({ page: 1, limit: FIRST_POST_LIMIT }));
-        updateFunctionOnScroll();
-    }, []);
 
     return (
         <>

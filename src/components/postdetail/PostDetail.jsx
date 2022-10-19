@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import NewButton from "../newbutton/NewButton";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,32 +13,7 @@ function PostDetail({ id }) {
     const navigation = useNavigate();
     const dispatch = useDispatch();
     
-    useEffect(() => {
-        dispatch(__getPost(id))
-        return () => {
-            dispatch(__getPost());
-        }
-    }, []);
-    
-    useEffect(() => {
-        if(temp.id !== -1)
-            axios.patch(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`, { hits: temp.hits + 1 }, [temp])
-        
-    })
-
     const temp = useSelector((state) => state.posts.post);
-    
-    console.log(temp)
-    const addHits = () => {
-        console.log('실행')
-        try{
-            axios.patch(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`, {
-                hits: (1 + 1)
-            })
-        } catch(error){
-            console.log(error)
-        }
-    }
 
     // Delete Modal 및 onClick Event 함수
     const deletePwRef = useRef();
@@ -87,6 +61,17 @@ function PostDetail({ id }) {
         boxShadow: 24,
         p: 4,
     };
+
+  useEffect(() => {
+    dispatch(__getPost(id))
+    return () => {
+        dispatch(__getPost());
+    }
+  }, []);
+  
+  useEffect(() => {
+    axios.patch(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`, { hits: temp.hits + 1 }, [temp])
+  }, [temp])
 
   return (
     <>
