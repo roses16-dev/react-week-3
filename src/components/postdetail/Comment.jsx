@@ -13,19 +13,15 @@ const Comment = ({ id }) => {
   const cmt = useSelector((state) => state.comments.comment);
   const loadingtest = useSelector((state) => state.comments.isLoading);
 
-  // console.log("코멘트로딩", loadingtest);
-  // console.log("코멘트페이지", cmt);
   const [temp, setTemp] = useState();
   useEffect(() => {
     dispatch(__getComments(id));
-
-    // console.log("겟코멘트이펙트");
   }, []);
 
   return (
     <>
-      <div className="comment">
-        <strong className="cmt_length">현재 댓글 {cmt.length} 개</strong>
+      <div className="CommentContainer">
+        <strong className="CmtLength">현재 댓글 {cmt.length} 개</strong>
         {!loadingtest &&
           cmt.map((e, i) => <CommentItem key={e.id} e={e} id={id} />)}
         <CommentForm id={id} />
@@ -48,23 +44,19 @@ const CommentItem = ({ e, id }) => {
 
   //댓글 삭제하기 버튼
   const delComment = () => {
-    console.log(deletePwRef.current.value);
     if (e.password === deletePwRef.current.value) {
       axios
         .delete(`${process.env.REACT_APP_APIADDRESS}/comments/${e.id}`)
         .then((response) => {
           dispatch(__getComments(id));
         })
-        .chath((err) => {
-          console.log(err.response);
-        });
+        .chath((err) => {});
     } else {
       alert("비밀번호가 일치하지 않습니다.");
     }
   };
   //댓글 수정하기 버튼
   const onClickModify = () => {
-    console.log(modifyPwRef.current.value);
     if (e.password == modifyPwRef.current.value) {
       return setView(false), setOpenModifyModal(false);
     } else {
@@ -85,9 +77,7 @@ const CommentItem = ({ e, id }) => {
           setView(true);
           dispatch(__getComments(id));
         })
-        .catch((err) => {
-          console.log(err.response);
-        });
+        .catch((err) => {});
     }
   };
 
@@ -123,19 +113,19 @@ const CommentItem = ({ e, id }) => {
   const deletePwRef = useRef();
 
   return (
-    <div className="cmtbox">
-      <p className="cmt_name">{e.author}</p>
+    <div className="CmtBox">
+      <p className="CmtName">{e.author}</p>
       {View ? (
-        <p className="cmt_desc">{e.content}</p>
+        <p className="CmtDesc">{e.content}</p>
       ) : (
         <input
           type="text"
-          className="cmt_descinput"
+          className="CmtDescinput"
           value={commentdesc}
           onChange={ChangeHandler}
         />
       )}
-      <div className="cmtbtn_wrap">
+      <div className="CmtBtnWrap">
         {View ? (
           <NewButton
             variant="outlined"
@@ -208,9 +198,7 @@ const CommentForm = ({ id }) => {
   const onCmtChangeHandler = (e) => {
     const { name, value } = e.target;
     setCmt({ ...comment, [name]: value });
-    console.log(comment);
   };
-  console.log("id넘어오는지 확인", id);
 
   //댓글 추가하기 요청
   const addComment = (e) => {
@@ -228,7 +216,6 @@ const CommentForm = ({ id }) => {
           content: comment.desc,
         })
         .then((response) => {
-          console.log("나리스폰이야", response);
           setCmt(commentform);
           dispatch(__getComments(id));
         });
@@ -237,12 +224,12 @@ const CommentForm = ({ id }) => {
 
   return (
     <>
-      <form className="cmt_form">
-        <div className="cmt_writebox">
-          <div className="cmt_user">
+      <form className="CmtForm">
+        <div className="CmtWriteBox">
+          <div className="CmtUser">
             <input
               type="text"
-              className="cmt_id"
+              className="CmtId"
               placeholder="이름"
               name="userid"
               value={comment.userid}
@@ -250,16 +237,16 @@ const CommentForm = ({ id }) => {
             />
             <input
               type="password"
-              className="cmt_pw"
+              className="CmtPw"
               placeholder="비밀번호"
               name="userpw"
               value={comment.userpw}
               onChange={onCmtChangeHandler}
             />
           </div>
-          <div className="cmt_write">
+          <div className="CmtWrite">
             <textarea
-              className="cmt_desc"
+              className="CmtDesc"
               name="desc"
               placeholder="댓글을 작성해주세요."
               value={comment.desc}
@@ -267,7 +254,7 @@ const CommentForm = ({ id }) => {
             />
           </div>
         </div>
-        <div className="cmt_addbtn">
+        <div className="CmtAddBtn">
           <NewButton
             size="large"
             variant="outlined"

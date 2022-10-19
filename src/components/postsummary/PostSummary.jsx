@@ -8,9 +8,8 @@ function PostSummary({ post }) {
 
   return (
     <>
-
-      <div className="container">
-        <div className="write_btn">
+      <div className="Container">
+        <div className="WriteBtn">
           <NewButton
             size="large"
             variant="outlined"
@@ -20,7 +19,7 @@ function PostSummary({ post }) {
             }}
           ></NewButton>
         </div>
-        <div className="board_table">
+        <div className="BoardTable">
           <table>
             <colgroup>
               <col style={{ width: "100px" }} />
@@ -59,7 +58,7 @@ const Postlistitem = ({ el, i }) => {
   return (
     <tr key={el.id}>
       <td>{i + 1}</td>
-      <td className="board_desc_title" onClick={onClickHandler}>
+      <td className="BoardDescTitle" onClick={onClickHandler}>
         {el.title}
       </td>
       <td>{el.author}</td>
