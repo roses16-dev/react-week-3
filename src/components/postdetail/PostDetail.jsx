@@ -3,7 +3,7 @@ import NewButton from "../newbutton/NewButton";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState, useRef } from "react";
-import { __getPost } from "../../redux/modules/postsSlice";
+import { __getPost, __addHits } from "../../redux/modules/postsSlice";
 import axios from "axios";
 import "./style.css";
 
@@ -13,15 +13,41 @@ function PostDetail({ id }) {
   const navigation = useNavigate();
   const dispatch = useDispatch();
 
-  const temp = useSelector((state) => state.posts.post);
-
   useEffect(() => {
     dispatch(__getPost(id));
-    return () => dispatch(__getPost());
+    return () => {
+      dispatch(__getPost());
+    };
   }, []);
 
-  const modifyPwRef = useRef();
+  useEffect(() => {
+    if (temp.id !== -1)
+      axios.patch(
+        `${process.env.REACT_APP_APIADDRESS}/posts/${id}`,
+        { hits: temp.hits + 1 },
+        [temp]
+      );
+  });
+
+  const temp = useSelector((state) => state.posts.post);
+
+  console.log(temp);
+  const addHits = () => {
+    console.log("실행");
+    try {
+      axios.patch(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`, {
+        hits: 1 + 1,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Delete Modal 및 onClick Event 함수
   const deletePwRef = useRef();
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const handleOpenDeleteModal = () => setOpenDeleteModal(true);
+  const handleCloseDeleteModal = () => setOpenDeleteModal(false);
 
   const onClickDelete = () => {
     if (deletePwRef.current.value !== temp.password) {
@@ -37,6 +63,12 @@ function PostDetail({ id }) {
     }
   };
 
+  // Modify Modal 및 onClick Event 함수
+  const modifyPwRef = useRef();
+  const [openModifyModal, setOpenModifyModal] = useState(false);
+  const handleOpenModifyModal = () => setOpenModifyModal(true);
+  const handleCloseModifyModal = () => setOpenModifyModal(false);
+
   const onClickModify = (event) => {
     if (modifyPwRef.current.value !== temp.password) {
       alert("비밀번호를 다시 확인해주세요.");
@@ -45,6 +77,7 @@ function PostDetail({ id }) {
     navigation(`/modify/${id}`);
   };
 
+  // Modal Style
   const style = {
     position: "absolute",
     top: "50%",
@@ -57,27 +90,19 @@ function PostDetail({ id }) {
     p: 4,
   };
 
-  const [openModifyModal, setOpenModifyModal] = useState(false);
-  const handleOpenModifyModal = () => setOpenModifyModal(true);
-  const handleCloseModifyModal = () => setOpenModifyModal(false);
-
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const handleOpenDeleteModal = () => setOpenDeleteModal(true);
-  const handleCloseDeleteModal = () => setOpenDeleteModal(false);
-
   return (
     <>
-      <div className="container2">
-        <div className="board_inner">
-          <div className="board_title">
+      <div className="Container2">
+        <div className="BoardInner">
+          <div className="BoardTitle">
             <h5>{temp.category}</h5>
             <h2>{temp.title}</h2>
             <h4>{temp.author}</h4>
           </div>
-          <div className="board_desc">
+          <div className="BoardDesc">
             <p>{temp.content}</p>
           </div>
-          <div className="btnWrap">
+          <div className="PostDetailBtnWrap">
             <NewButton
               color="inherit"
               variant="outlined"
@@ -123,25 +148,3 @@ function PostDetail({ id }) {
 }
 
 export default PostDetail;
-
-const PostDetailBox = styled.div`
-  width: 100%;
-  height: 100%;
-
-  div {
-    min-height: 50px;
-    margin: 5px;
-    white-space: pre-line;
-  }
-
-  input {
-    margin: 5px;
-  }
-
-  .btnWrap {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-`;

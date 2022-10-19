@@ -5,12 +5,11 @@ import NewButton from "../newbutton/NewButton";
 
 function PostSummary({ post }) {
   const navigator = useNavigate();
-
+  console.log(post);
   return (
     <>
-      {/* <PostSummaryBox onClick={onClickHandler}> */}
-      <div className="container">
-        <div className="write_btn">
+      <div className="Container">
+        <div className="WriteBtn">
           <NewButton
             size="large"
             variant="outlined"
@@ -20,7 +19,7 @@ function PostSummary({ post }) {
             }}
           ></NewButton>
         </div>
-        <div className="board_table">
+        <div className="BoardTable">
           <table>
             <colgroup>
               <col style={{ width: "100px" }} />
@@ -37,37 +36,36 @@ function PostSummary({ post }) {
               </tr>
             </thead>
             <tbody>
-              {post.map((el, i) => (
-                <Postlistitem key={el.id} el={el} i={i} />
+              {post.map((element, index) => (
+                <Postlistitem
+                  key={element.id}
+                  element={element}
+                  index={index}
+                />
               ))}
             </tbody>
           </table>
         </div>
       </div>
-
-      {/* <span className="spanTitle">{post.title}</span>
-            <span className="spanAuthor">{post.author}</span> */}
-      {/* </PostSummaryBox> */}
     </>
   );
 }
 
 export default PostSummary;
 
-const Postlistitem = ({ el, i }) => {
+const Postlistitem = ({ element, index }) => {
   const navigator = useNavigate();
-  const onClickHandler = (e) => {
-    navigator(`/detail/${el.id}`);
+  const onClickHandler = (event) => {
+    navigator(`/detail/${event.id}`);
   };
-
   return (
-    <tr key={el.id}>
-      <td>{i + 1}</td>
-      <td className="board_desc_title" onClick={onClickHandler}>
-        {el.title}
+    <tr key={element.id}>
+      <td>{index + 1}</td>
+      <td className="BoardDescTitle" onClick={onClickHandler}>
+        {element.title}
       </td>
-      <td>{el.author}</td>
-      <td>0</td>
+      <td>{element.author}</td>
+      <td>{element.hits}</td>
     </tr>
   );
 };
