@@ -1,9 +1,6 @@
 import styled from "styled-components";
-import NewButton from "../newbutton/NewButton";
-import { useNavigate } from "react-router-dom";
 
 function Header() {
-  const navigate = useNavigate();
 
   return (
     <>
@@ -30,7 +27,6 @@ const HeaderSection = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-
     text-align: center;
   }
 
