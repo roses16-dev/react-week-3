@@ -4,7 +4,6 @@ import Header from "../components/header/Header"
 function Write(){
 
     return <>
-            <Header />
             <PostWrite />
             </>
 }

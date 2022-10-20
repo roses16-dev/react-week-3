@@ -28,7 +28,6 @@ function List() {
     if(isLoading) {
 
         return  <>
-                    <Header />
                     <h1>Loading...</h1>
                 </>
     }
@@ -36,7 +35,6 @@ function List() {
     if(!isLoading && !posts){
 
         return  <>
-                    <Header />
                     <h1>Error! 새로고침 해주세요.</h1>
                 </>
     }
@@ -58,7 +56,6 @@ function List() {
 
     return (
         <>
-        <Header />
         <PostSummary post={posts} />
         </>
     );
