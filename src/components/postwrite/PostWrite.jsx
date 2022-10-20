@@ -3,6 +3,8 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+
+import { API_URL } from "../../shared/Request"
 import { __writePost, __getPost } from "../../redux/modules/postsSlice";
 
 import NewButton from "../newbutton/NewButton";
@@ -71,7 +73,7 @@ function PostWrite({ id = false }) {
             password: formRef.password.current.value
         }));
     } else {
-        axios.patch(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`, {
+        axios.patch(`${API_URL}/posts/${id}`, {
                 ...post,
                 author: formRef.author.current.value,
                 category: formRef.category.current.value,

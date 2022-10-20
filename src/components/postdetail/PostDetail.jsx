@@ -1,10 +1,13 @@
-import NewButton from "../newbutton/NewButton";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState, useRef } from "react";
+
+import { API_URL } from "../../shared/Request";
 import { __getPost, __addHits } from "../../redux/modules/postsSlice";
-import axios from "axios";
+
 import "./style.css";
+import NewButton from "../newbutton/NewButton";
 
 import { Box, Modal } from "@material-ui/core";
 
@@ -30,7 +33,7 @@ function PostDetail({ id }) {
     }, []);
     
     useEffect(() => {
-      axios.patch(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`, { hits: temp.hits + 1 }, [temp])
+      axios.patch(`${API_URL}/posts/${id}`, { hits: temp.hits + 1 }, [temp])
     }, [temp])
 
     if(isLoading) {
@@ -64,7 +67,7 @@ function PostDetail({ id }) {
           return;
       }
       try {
-          axios.delete(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`);
+          axios.delete(`${API_URL}/posts/${id}`);
       } catch (error) {
           console.log(`Detail : onClickDelete에서 오류 ${error}`);
       } finally {
