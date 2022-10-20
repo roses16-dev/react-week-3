@@ -23,7 +23,7 @@ const Comment = ({ id }) => {
         <strong className="CmtLength">현재 댓글 {cmt.length} 개</strong>
         {!loadingtest &&
           cmt.map((element) => (
-            <CommentItem key={element.id} e={element} id={id} />
+            <CommentItem key={element.id} element={element} id={id} />
           ))}
         <CommentForm id={id} />
       </div>
