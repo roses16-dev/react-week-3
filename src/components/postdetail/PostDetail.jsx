@@ -13,65 +13,76 @@ function PostDetail({ id }) {
     const navigation = useNavigate();
     const dispatch = useDispatch();
     
-    const temp = useSelector((state) => state.posts.post);
-
-    // Delete Modal 및 onClick Event 함수
     const deletePwRef = useRef();
+    const modifyPwRef = useRef();
+
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [openModifyModal, setOpenModifyModal] = useState(false);
+
+    const temp = useSelector((state) => state.posts.post);
+    const isLoading = useSelector((state) => state.posts.isLoading);
+
+    useEffect(() => {
+      dispatch(__getPost(id))
+      return () => {
+          dispatch(__getPost());
+      }
+    }, []);
+    
+    useEffect(() => {
+      axios.patch(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`, { hits: temp.hits + 1 }, [temp])
+    }, [temp])
+
+    if(isLoading) {
+      return <h1>Loading...</h1>
+    }
+
+    if(!isLoading && !temp){
+      return <h1>Error...! 새로고침해주세요!</h1>
+    }
+
+    // Modal Style --
+    const style = {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 400,
+      bgcolor: "background.paper",
+      border: "2px solid #000",
+      boxShadow: 24,
+      p: 4,
+    };
+
+    // Delete Modal 및 onClick Event 함수 ---
     const handleOpenDeleteModal = () => setOpenDeleteModal(true);
     const handleCloseDeleteModal = () => setOpenDeleteModal(false);
 
     const onClickDelete = () => {
-        if (deletePwRef.current.value !== temp.password) {
-            alert("비밀번호를 다시 확인해주세요.");
-            return;
-        }
-        try {
-            axios.delete(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`);
-        } catch (error) {
-            console.log(`Detail : onClickDelete에서 오류 ${error}`);
-        } finally {
-            navigation("/");
-        }
+      if (deletePwRef.current.value !== temp.password) {
+          alert("비밀번호를 다시 확인해주세요.");
+          return;
+      }
+      try {
+          axios.delete(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`);
+      } catch (error) {
+          console.log(`Detail : onClickDelete에서 오류 ${error}`);
+      } finally {
+          navigation("/");
+      }
     };
 
-    // Modify Modal 및 onClick Event 함수
-    const modifyPwRef = useRef();
-    const [openModifyModal, setOpenModifyModal] = useState(false);
+    // Modify Modal 및 onClick Event 함수 ---
     const handleOpenModifyModal = () => setOpenModifyModal(true);
     const handleCloseModifyModal = () => setOpenModifyModal(false);
 
     const onClickModify = (event) => {
-        if (modifyPwRef.current.value !== temp.password) {
-            alert("비밀번호를 다시 확인해주세요.");
-            return;
-        }
-        navigation(`/modify/${id}`);
+      if (modifyPwRef.current.value !== temp.password) {
+          alert("비밀번호를 다시 확인해주세요.");
+          return;
+      }
+      navigation(`/modify/${id}`);
     };
-
-    // Modal Style
-    const style = {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        width: 400,
-        bgcolor: "background.paper",
-        border: "2px solid #000",
-        boxShadow: 24,
-        p: 4,
-    };
-
-  useEffect(() => {
-    dispatch(__getPost(id))
-    return () => {
-        dispatch(__getPost());
-    }
-  }, []);
-  
-  useEffect(() => {
-    axios.patch(`${process.env.REACT_APP_APIADDRESS}/posts/${id}`, { hits: temp.hits + 1 }, [temp])
-  }, [temp])
 
   return (
     <>
