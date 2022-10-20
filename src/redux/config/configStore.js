@@ -7,6 +7,8 @@ import comments from "../modules/commentSlice";
 
 const store = configureStore({
   reducer: { posts: posts, comments, comments },
-}, composeWithDevTools(applyMiddleware(thunk)));
+  devTools: process.env.NODE_ENV !== 'production'
+// }, composeWithDevTools(applyMiddleware(thunk)));
+}, );
 
 export default store;
