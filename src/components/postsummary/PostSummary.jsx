@@ -55,8 +55,8 @@ export default PostSummary;
 
 const Postlistitem = ({ element, index }) => {
   const navigator = useNavigate();
-  const onClickHandler = (event) => {
-    navigator(`/detail/${event.id}`);
+  const onClickHandler = () => {
+    navigator(`/detail/${element.id}`);
   };
   return (
     <tr key={element.id}>
