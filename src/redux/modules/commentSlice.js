@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { API_URL } from "../../shared/Request";
 
 const initialState = {
   comment: {
@@ -17,18 +18,12 @@ export const __getComments = createAsyncThunk(
   "comments/getcomments",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get(`${process.env.REACT_APP_APIADDRESS}/comments/`);
-      console.log("체크", data.data);
-      console.log(
-        "코멘트데이터",
-        data.data.filter((e) => e.post == payload)
-      );
+      const data = await axios.get(`${API_URL}/comments/`);
       return thunkAPI.fulfillWithValue(
         data.data.filter((e) => e.post == payload)
       );
     } catch (error) {
       console.log(`__getPosts Error!! ${error}`);
-      console.log("코멘트에러떳어요!", error);
       return thunkAPI.rejectWithValue(error);
     }
   }

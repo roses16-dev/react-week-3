@@ -8,7 +8,6 @@ function Detail() {
 
   return (
     <>
-      <Header />
       <PostDetail id={id} />
       <Comment id={id} />
     </>

@@ -7,7 +7,6 @@ const useInput = () => {
         setValue(event.target.value);
     }
 
-
     return [ value, handler ]
 }
 

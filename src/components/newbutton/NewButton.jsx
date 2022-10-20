@@ -1,5 +1,4 @@
 import { Button } from "@material-ui/core";
-import { createTheme } from "@mui/material/styles";
 
 function NewButton({
   size,
