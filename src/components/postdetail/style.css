@@ -1,5 +1,5 @@
 /* 댓글리스트 */
-.comment {
+.CommentContainer {
   width: 95%;
   max-width: 900px;
   margin: 0 auto;
@@ -8,13 +8,13 @@
   position: relative;
 }
 
-.cmt_length {
+.CmtLength {
   position: absolute;
   top: -40px;
   left: 10px;
 }
 
-.cmtbox {
+.CmtBox {
   display: flex;
   justify-content: space-between;
   margin: 25px 0;
@@ -22,110 +22,100 @@
   border-bottom: dotted 1px rgba(0, 0, 0, 0.15);
   padding-bottom: 5px;
 }
-.cmt_name,
-.cmt_desc {
+
+.CmtName,
+.CmtDesc {
   font-size: 1rem;
 }
-.cmtbox p {
+.CmtBox p {
   display: inline;
 }
-.cmt_name {
+.CmtName {
   margin: 0 20px 0 10px;
   width: 100px;
   text-align: center;
 }
-.mod_btn,
-.modsave_btn {
-  margin: 0 20px;
-}
-.cmtbtn_wrap {
+.CmtBtnWrap {
   display: flex;
   gap: 10px;
   margin-left: 20px;
 }
 
 /* 댓글작성폼 */
-.cmt_form {
+.CmtForm {
   margin-top: 50px;
   border: 1px solid rgba(20, 20, 20, 0.4);
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 60px;
 }
-.cmt_writebox {
+.CmtWriteBox {
   display: flex;
   gap: 20px;
   width: 100%;
   height: 70px;
 }
-.cmt_user {
+.CmtUser {
   width: 20%;
 }
-.cmt_id,
-.cmt_pw {
+.CmtId,
+.CmtPw {
   width: 100%;
   height: 40%;
   padding-left: 5px;
 }
-.cmt_id {
+.CmtId {
   margin-bottom: 0.6rem;
 }
-.cmt_user {
-}
-.cmt_write {
+.CmtWrite {
   width: 80%;
 }
-.cmt_desc,
-.cmt_descinput {
+.CmtDesc,
+.CmtDescinput {
   width: 100%;
   height: 100%;
   padding: 8px;
 }
-.cmt_btn {
-  margin-top: 20px;
-  margin-left: 90%;
-  padding: 5px 10px;
-}
-.cmt_addbtn {
+.CmtAddBtn {
   margin-top: 20px;
   text-align: center;
 }
 /* 게시글  */
-.container2 {
+.Container2 {
   width: 95%;
   max-width: 900px;
   margin: 0 auto;
 }
-.board_inner {
+.BoardInner {
   padding: 20px;
 }
 
-.board_title {
+.BoardTitle {
   padding-bottom: 30px;
   border-bottom: 1px solid #cdcdcd;
   border-top: 3px solid #333;
   padding-top: 15px;
 }
-.board_title h5 {
+.BoardTitle h5 {
   font-size: 13px;
   font-weight: normal;
 }
-.board_title h2 {
+.BoardTitle h2 {
   margin: 20px 0 15px 0;
   font-size: 28px;
 }
-.board_title h4 {
+.BoardTitle h4 {
   font-size: 18px;
   font-weight: normal;
 }
 
-.board_desc {
+.BoardDesc {
   margin: 40px 0 50px 0;
   min-height: 230px;
   border-bottom: 1px solid #cdcdcd;
   white-space: pre-line;
 }
-.btnWrap {
+.PostDetailBtnWrap {
   display: flex;
   justify-content: center;
   gap: 20px;
