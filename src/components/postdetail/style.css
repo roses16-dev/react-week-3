@@ -120,3 +120,120 @@
   justify-content: center;
   gap: 20px;
 }
+/* 댓글예외처리 로딩스피너 + 경고문 */
+@keyframes CommentLoading {
+  0% {
+    opacity: 1;
+    backface-visibility: hidden;
+    transform: translateZ(0) scale(1.23, 1.23);
+  }
+  100% {
+    opacity: 0;
+    backface-visibility: hidden;
+    transform: translateZ(0) scale(1, 1);
+  }
+}
+.CommentLoading div > div {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ff727d;
+  animation: CommentLoading 1s linear infinite;
+}
+.CommentLoading div:nth-child(1) > div {
+  left: 126px;
+  top: 94px;
+  animation-delay: -0.875s;
+}
+.CommentLoading > div:nth-child(1) {
+  transform: rotate(0deg);
+  transform-origin: 132px 100px;
+}
+.CommentLoading div:nth-child(2) > div {
+  left: 117px;
+  top: 117px;
+  animation-delay: -0.75s;
+}
+.CommentLoading > div:nth-child(2) {
+  transform: rotate(45deg);
+  transform-origin: 123px 123px;
+}
+.CommentLoading div:nth-child(3) > div {
+  left: 94px;
+  top: 126px;
+  animation-delay: -0.625s;
+}
+.CommentLoading > div:nth-child(3) {
+  transform: rotate(90deg);
+  transform-origin: 100px 132px;
+}
+.CommentLoading div:nth-child(4) > div {
+  left: 71px;
+  top: 117px;
+  animation-delay: -0.5s;
+}
+.CommentLoading > div:nth-child(4) {
+  transform: rotate(135deg);
+  transform-origin: 77px 123px;
+}
+.CommentLoading div:nth-child(5) > div {
+  left: 62px;
+  top: 94px;
+  animation-delay: -0.375s;
+}
+.CommentLoading > div:nth-child(5) {
+  transform: rotate(180deg);
+  transform-origin: 68px 100px;
+}
+.CommentLoading div:nth-child(6) > div {
+  left: 71px;
+  top: 71px;
+  animation-delay: -0.25s;
+}
+.CommentLoading > div:nth-child(6) {
+  transform: rotate(225deg);
+  transform-origin: 77px 77px;
+}
+.CommentLoading div:nth-child(7) > div {
+  left: 94px;
+  top: 62px;
+  animation-delay: -0.125s;
+}
+.CommentLoading > div:nth-child(7) {
+  transform: rotate(270deg);
+  transform-origin: 100px 68px;
+}
+.CommentLoading div:nth-child(8) > div {
+  left: 117px;
+  top: 71px;
+  animation-delay: 0s;
+}
+.CommentLoading > div:nth-child(8) {
+  transform: rotate(315deg);
+  transform-origin: 123px 77px;
+}
+.LoadingSpinnerWrap {
+  width: 200px;
+  height: 200px;
+  display: inline-block;
+  overflow: hidden;
+  background: #ffffff;
+}
+.CommentLoading {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(1);
+  backface-visibility: hidden;
+  transform-origin: 0 0;
+}
+.CommentLoading div {
+  box-sizing: content-box;
+}
+.CmtError {
+  text-align: center;
+  padding: 30px;
+  color: rgb(223, 45, 45);
+  font-size: 25px;
+}

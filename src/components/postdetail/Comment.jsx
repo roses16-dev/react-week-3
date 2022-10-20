@@ -6,6 +6,8 @@ import axios from "axios";
 import "./style.css";
 import NewButton from "../newbutton/NewButton";
 import { Box, Modal } from "@material-ui/core";
+import { API_URL } from "../../shared/Request";
+
 
 const Comment = ({ id }) => {
   const dispatch = useDispatch();
@@ -16,6 +18,45 @@ const Comment = ({ id }) => {
   useEffect(() => {
     dispatch(__getComments(id));
   }, []);
+
+  if (loadingtest) {
+    return (
+      <div className="LoadingSpinnerWrap">
+        <div className="CommentLoading">
+          <div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!loadingtest && cmt == undefined) {
+    return (
+      <div className="CmtError">통신 오류로 데이터를 불러오지 못했습니다.</div>
+    );
+  }
 
   return (
     <>
@@ -48,7 +89,8 @@ const CommentItem = ({ element, id }) => {
   const DelComment = () => {
     if (element.password === deletePwRef.current.value) {
       axios
-        .delete(`${process.env.REACT_APP_APIADDRESS}/comments/${element.id}`)
+        .delete(`${API_URL}/comments/${element.id}`)
+
         .then((response) => {
           dispatch(__getComments(id));
         })
@@ -75,7 +117,9 @@ const CommentItem = ({ element, id }) => {
       alert("빈칸은 안돼용");
     } else {
       axios
-        .patch(`${process.env.REACT_APP_APIADDRESS}/comments/${element.id}`, {
+
+        .patch(`${API_URL}/comments/${element.id}`, {
+
           content: commentdesc,
         })
         .then((response) => {
@@ -217,7 +261,9 @@ const CommentForm = ({ id }) => {
       alert("빈칸을 확인해주세요.");
     } else {
       axios
-        .post(`${process.env.REACT_APP_APIADDRESS}/comments/`, {
+
+        .post(`${API_URL}/comments/`, {
+
           post: id,
           id: Date.now() + "",
           author: comment.userid,
