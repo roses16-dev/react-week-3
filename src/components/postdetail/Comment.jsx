@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { __getComments } from "../../redux/modules/commentSlice";
 import { useState } from "react";
 import axios from "axios";
 import "./style.css";
 import NewButton from "../newbutton/NewButton";
+import { Box, Modal } from "@material-ui/core";
+import { API_URL } from "../../shared/Request";
 
 const Comment = ({ id }) => {
   const dispatch = useDispatch();
@@ -12,21 +14,57 @@ const Comment = ({ id }) => {
   const cmt = useSelector((state) => state.comments.comment);
   const loadingtest = useSelector((state) => state.comments.isLoading);
 
-  // console.log("코멘트로딩", loadingtest);
-  // console.log("코멘트페이지", cmt);
-  const [temp, setTemp] = useState();
   useEffect(() => {
     dispatch(__getComments(id));
-
-    // console.log("겟코멘트이펙트");
   }, []);
+
+  if (loadingtest) {
+    return (
+      <div className="LoadingSpinnerWrap">
+        <div className="CommentLoading">
+          <div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!loadingtest && cmt == undefined) {
+    return (
+      <div className="CmtError">통신 오류로 데이터를 불러오지 못했습니다.</div>
+    );
+  }
 
   return (
     <>
-      <div className="comment">
-        <strong className="cmt_length">현재 댓글 {cmt.length} 개</strong>
+      <div className="CommentContainer">
+        <strong className="CmtLength">현재 댓글 {cmt.length} 개</strong>
         {!loadingtest &&
-          cmt.map((e, i) => <CommentItem key={e.id} e={e} id={id} />)}
+          cmt.map((element) => (
+            <CommentItem key={element.id} element={element} id={id} />
+          ))}
         <CommentForm id={id} />
       </div>
     </>
@@ -35,36 +73,36 @@ const Comment = ({ id }) => {
 
 export default Comment;
 
-const CommentItem = ({ e, id }) => {
+const CommentItem = ({ element, id }) => {
   const [View, setView] = useState(true);
   const [commentdesc, setcommentdesc] = useState("");
 
   useEffect(() => {
-    setcommentdesc(e.content);
+    setcommentdesc(element.content);
   }, [View]);
 
   const dispatch = useDispatch();
 
   //댓글 삭제하기 버튼
-  const delComment = () => {
-    let test = prompt("비밀번호를 입력해주세요");
-    if (e.password === test) {
+  const DelComment = () => {
+    if (element.password === deletePwRef.current.value) {
       axios
-        .delete(`${process.env.REACT_APP_APIADDRESS}/comments/${e.id}`)
-        .then(dispatch(__getComments(id)))
-        .chath((err) => {
-          console.log(err.response);
-        });
+        .delete(`${API_URL}/comments/${element.id}`)
+        .then((response) => {
+          dispatch(__getComments(id));
+        })
+        .chath((err) => {});
     } else {
       alert("비밀번호가 일치하지 않습니다.");
     }
   };
   //댓글 수정하기 버튼
-  const ModifyComment = () => {
-    let pswcheck = prompt("비밀번호를 입력해주세요");
-    e.password === pswcheck
-      ? setView(false)
-      : alert("비밀번호가 일치하지 않습니다.");
+  const onClickModify = () => {
+    if (element.password == modifyPwRef.current.value) {
+      return setView(false), setOpenModifyModal(false);
+    } else {
+      alert("비밀번호가 달라요.");
+    }
   };
 
   //댓글 수정하기들어와서 저장하기 버튼
@@ -73,42 +111,68 @@ const CommentItem = ({ e, id }) => {
       alert("빈칸은 안돼용");
     } else {
       axios
-        .patch(`${process.env.REACT_APP_APIADDRESS}/comments/${e.id}`, {
+        .patch(`${API_URL}/comments/${element.id}`, {
           content: commentdesc,
         })
-        .then(dispatch(__getComments(id)), setView(true))
-        .catch((err) => {
-          console.log(err.response);
-        });
+        .then((response) => {
+          setView(true);
+          dispatch(__getComments(id));
+        })
+        .catch((err) => {});
     }
   };
+
   const CancelComment = () => {
     setView(true);
   };
+
   const ChangeHandler = (e) => {
     setcommentdesc(e.target.value);
   };
 
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  const [openModifyModal, setOpenModifyModal] = useState(false);
+  const handleOpenModifyModal = () => setOpenModifyModal(true);
+  const handleCloseModifyModal = () => setOpenModifyModal(false);
+
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const handleOpenDeleteModal = () => setOpenDeleteModal(true);
+  const handleCloseDeleteModal = () => setOpenDeleteModal(false);
+
+  const modifyPwRef = useRef();
+  const deletePwRef = useRef();
+
   return (
-    <div className="cmtbox">
-      <p className="cmt_name">{e.author}</p>
+    <div className="CmtBox">
+      <p className="CmtName">{element.author}</p>
       {View ? (
-        <p className="cmt_desc">{e.content}</p>
+        <p className="CmtDesc">{element.content}</p>
       ) : (
         <input
           type="text"
-          className="cmt_descinput"
+          className="CmtDescinput"
           value={commentdesc}
           onChange={ChangeHandler}
         />
       )}
-      <div className="cmtbtn_wrap">
+      <div className="CmtBtnWrap">
         {View ? (
           <NewButton
             variant="outlined"
             size="small"
             value="수정"
-            onClick={ModifyComment}
+            onClick={handleOpenModifyModal}
           >
             수정
           </NewButton>
@@ -121,12 +185,23 @@ const CommentItem = ({ e, id }) => {
             저장
           </NewButton>
         )}
+        <Modal
+          open={openModifyModal}
+          onClose={handleCloseModifyModal}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            비밀번호 : <input type="password" ref={modifyPwRef} />{" "}
+            <NewButton type="button" value="확인" onClick={onClickModify} />
+          </Box>
+        </Modal>
         {View ? (
           <NewButton
             color="secondary"
             variant="outlined"
             value="삭제"
-            onClick={delComment}
+            onClick={handleOpenDeleteModal}
           >
             삭제
           </NewButton>
@@ -135,6 +210,17 @@ const CommentItem = ({ e, id }) => {
             취소
           </NewButton>
         )}
+        <Modal
+          open={openDeleteModal}
+          onClose={handleCloseDeleteModal}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            비밀번호 : <input type="password" ref={deletePwRef} />{" "}
+            <NewButton type="button" value="확인" onClick={DelComment} />
+          </Box>
+        </Modal>
       </div>
     </div>
   );
@@ -153,9 +239,7 @@ const CommentForm = ({ id }) => {
   const onCmtChangeHandler = (e) => {
     const { name, value } = e.target;
     setCmt({ ...comment, [name]: value });
-    console.log(comment);
   };
-  console.log("id넘어오는지 확인", id);
 
   //댓글 추가하기 요청
   const addComment = (e) => {
@@ -164,28 +248,29 @@ const CommentForm = ({ id }) => {
     if (comment.userid == "" || comment.userpw == "" || comment.desc == "") {
       alert("빈칸을 확인해주세요.");
     } else {
-      try {
-        axios.post(`${process.env.REACT_APP_APIADDRESS}/comments/`, {
+      axios
+        .post(`${API_URL}/comments/`, {
           post: id,
           id: Date.now() + "",
           author: comment.userid,
           password: comment.userpw,
           content: comment.desc,
+        })
+        .then((response) => {
+          setCmt(commentform);
+          dispatch(__getComments(id));
         });
-      } finally {
-        return setCmt(commentform), dispatch(__getComments(id));
-      }
     }
   };
 
   return (
     <>
-      <form className="cmt_form">
-        <div className="cmt_writebox">
-          <div className="cmt_user">
+      <form className="CmtForm">
+        <div className="CmtWriteBox">
+          <div className="CmtUser">
             <input
               type="text"
-              className="cmt_id"
+              className="CmtId"
               placeholder="이름"
               name="userid"
               value={comment.userid}
@@ -193,16 +278,16 @@ const CommentForm = ({ id }) => {
             />
             <input
               type="password"
-              className="cmt_pw"
+              className="CmtPw"
               placeholder="비밀번호"
               name="userpw"
               value={comment.userpw}
               onChange={onCmtChangeHandler}
             />
           </div>
-          <div className="cmt_write">
+          <div className="CmtWrite">
             <textarea
-              className="cmt_desc"
+              className="CmtDesc"
               name="desc"
               placeholder="댓글을 작성해주세요."
               value={comment.desc}
@@ -210,7 +295,7 @@ const CommentForm = ({ id }) => {
             />
           </div>
         </div>
-        <div className="cmt_addbtn">
+        <div className="CmtAddBtn">
           <NewButton
             size="large"
             variant="outlined"
