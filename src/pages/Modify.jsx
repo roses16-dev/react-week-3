@@ -7,7 +7,6 @@ function Modify(){
     const { id } = useParams()
 
     return  <>
-            <Header />
             <PostWrite id = {id}/>
         </>
 
