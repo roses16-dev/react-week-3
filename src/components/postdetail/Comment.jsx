@@ -8,6 +8,7 @@ import NewButton from "../newbutton/NewButton";
 import { Box, Modal } from "@material-ui/core";
 import { API_URL } from "../../shared/Request";
 
+
 const Comment = ({ id }) => {
   const dispatch = useDispatch();
 
@@ -84,21 +85,26 @@ const CommentItem = ({ element, id }) => {
   const dispatch = useDispatch();
 
   //댓글 삭제하기 버튼
+
   const DelComment = () => {
     if (element.password === deletePwRef.current.value) {
       axios
         .delete(`${API_URL}/comments/${element.id}`)
+
         .then((response) => {
           dispatch(__getComments(id));
         })
         .chath((err) => {});
+
     } else {
       alert("비밀번호가 일치하지 않습니다.");
     }
   };
   //댓글 수정하기 버튼
   const onClickModify = () => {
+
     if (element.password == modifyPwRef.current.value) {
+
       return setView(false), setOpenModifyModal(false);
     } else {
       alert("비밀번호가 달라요.");
@@ -111,14 +117,18 @@ const CommentItem = ({ element, id }) => {
       alert("빈칸은 안돼용");
     } else {
       axios
+
         .patch(`${API_URL}/comments/${element.id}`, {
+
           content: commentdesc,
         })
         .then((response) => {
           setView(true);
           dispatch(__getComments(id));
         })
+
         .catch((err) => {});
+
     }
   };
 
@@ -218,7 +228,9 @@ const CommentItem = ({ element, id }) => {
         >
           <Box sx={style}>
             비밀번호 : <input type="password" ref={deletePwRef} />{" "}
+
             <NewButton type="button" value="확인" onClick={DelComment} />
+
           </Box>
         </Modal>
       </div>
@@ -249,7 +261,9 @@ const CommentForm = ({ id }) => {
       alert("빈칸을 확인해주세요.");
     } else {
       axios
+
         .post(`${API_URL}/comments/`, {
+
           post: id,
           id: Date.now() + "",
           author: comment.userid,

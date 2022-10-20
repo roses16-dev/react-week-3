@@ -23,9 +23,7 @@ export default function useInfiniteScroll(fetchCallback){
     }, []);
     
     useEffect(() => {
-        if(!isFetching) {
-            return;
-        }
+        if(!isFetching) return;
         fetchCallback();
     }, [isFetching])
 
