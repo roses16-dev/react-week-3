@@ -5,7 +5,6 @@ import NewButton from "../newbutton/NewButton";
 
 function PostSummary({ post }) {
   const navigator = useNavigate();
-  console.log(post);
   return (
     <>
 
