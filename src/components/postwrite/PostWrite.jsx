@@ -1,25 +1,27 @@
-import { PostWriteSection } from "./style";
-import NewButton from "../newbutton/NewButton";
-import { useNavigate } from "react-router-dom";
-import { __writePost, __getPost } from "../../redux/modules/postsSlice";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { __writePost, __getPost } from "../../redux/modules/postsSlice";
+
+import NewButton from "../newbutton/NewButton";
+import Style from "./Style.module.css";
+
 
 function PostWrite({ id = false }) {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const formRef = {
-        author: useRef(),
-        category: useRef(),
-        title: useRef(),
-        content: useRef(),
-        password: useRef(),
-    };
+  const formRef = {
+    author: useRef(),
+    category: useRef(),
+    title: useRef(),
+    content: useRef(),
+    password: useRef(),
+  };
 
-    const [ post, setPost ] = useState({
+  const [ post, setPost ] = useState({
       author: '',
       category: 'CATEGORY1',
       title: '',
@@ -28,6 +30,14 @@ function PostWrite({ id = false }) {
   });
 
   const postData = useSelector(state => state.posts.post);
+
+  useEffect(() => {
+    if(id) {
+      dispatch(__getPost(id));
+      setPost(postData);
+    } 
+    return () => dispatch(__getPost(id));
+  }, [])
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
@@ -77,17 +87,9 @@ function PostWrite({ id = false }) {
     navigate('/');
   }
 
-    useEffect(() => {
-      if(id) {
-          dispatch(__getPost(id));
-          setPost(postData);
-      } 
-      return () => dispatch(__getPost(id));
-    }, [])
-
-    return (
+  return (
     <>
-      <PostWriteSection>
+      <div className={Style.postWriteSection}>
         <form onSubmit={onSubmitHandler}>
           <ul>
             <li>
@@ -134,12 +136,12 @@ function PostWrite({ id = false }) {
               <input type="password" name="password" ref={formRef.password} />
             </li>
           </ul>
-          <div className="btnwrap">
-            <NewButton type="submit" value="완료" variant="outlined"style={{margin:10}}/>
+          <div className={Style.btnWrap}>
+            <NewButton type="submit" value="완료" variant="outlined" style={{margin:10}}/>
             <NewButton value="취소" variant="outlined" onClick={onClickCancle} />
           </div>
         </form>
-      </PostWriteSection>
+      </div>
     </>
   );
 }
