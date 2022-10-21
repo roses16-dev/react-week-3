@@ -9,6 +9,7 @@ function Detail() {
   return (
     <>
       <PostDetail id={id} />
+      123
       <Comment id={id} />
     </>
   );
