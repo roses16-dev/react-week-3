@@ -18,7 +18,9 @@ export const __getComments = createAsyncThunk(
   "comments/getcomments",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get(`${API_URL}/comments/`);
+      const data = await axios.get(
+        `${process.env.REACT_APP_APIADDRESS}/comments/`
+      );
       return thunkAPI.fulfillWithValue(
         data.data.filter((e) => e.post == payload)
       );

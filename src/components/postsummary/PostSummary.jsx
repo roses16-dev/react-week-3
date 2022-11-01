@@ -8,10 +8,8 @@ function PostSummary({ post }) {
   console.log(post);
   return (
     <>
-
       <div className="Container">
         <div className="WriteBtn">
-
           <NewButton
             size="large"
             variant="outlined"
@@ -69,7 +67,6 @@ const Postlistitem = ({ element, index }) => {
 
       <td>{element.author}</td>
       <td>{element.hits}</td>
-
     </tr>
   );
 };

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import shortid from "shortid";
+import { API_URL } from "../../shared/Request";
 
 const initialState = {
   posts: [],
@@ -22,7 +23,7 @@ export const __getPosts = createAsyncThunk(
     try {
       const data = payload
         ? await axios.get(
-            `${process.env.REACT_APP_APIADDRESS}/posts?_sort=postingTime&_order=desc&_page=${payload.page}&_limit=${payload.limit}`
+            `${API_URL}/posts?_sort=postingTime&_order=desc&_page=${payload.page}&_limit=${payload.limit}`
           )
         : await axios.get(`${process.env.REACT_APP_APIADDRESS}/posts?_page`);
       return thunkAPI.fulfillWithValue(data.data);
@@ -37,7 +38,7 @@ export const __accruePostsByPage = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.get(
-        `${process.env.REACT_APP_APIADDRESS}/posts?_sort=postingTime&_order=desc&_page=${payload.page}&_limit=${payload.limit}`
+        `${API_URL}/posts?_sort=postingTime&_order=desc&_page=${payload.page}&_limit=${payload.limit}`
       );
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -51,9 +52,7 @@ export const __getPost = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = payload
-        ? await axios.get(
-            `${process.env.REACT_APP_APIADDRESS}/posts/${payload}`
-          )
+        ? await axios.get(`${API_URL}/posts/${payload}`)
         : initialState.post;
       if (payload) return thunkAPI.fulfillWithValue(data.data);
       else return thunkAPI.fulfillWithValue(data);
@@ -73,7 +72,7 @@ export const __writePost = createAsyncThunk(
         hits: 0,
         postingTime: Date.now(),
       };
-      await axios.post(`${process.env.REACT_APP_APIADDRESS}/posts`, post);
+      await axios.post(`${API_URL}/posts`, post);
       return thunkAPI.fulfillWithValue(post);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -99,32 +98,6 @@ const postsSlice = createSlice({
       state.error = action.payload;
     },
 
-    // __accruePostsByPage
-    [__accruePostsByPage.pending]: (state, action) => {
-      state.isLoading = true;
-    },
-    [__accruePostsByPage.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.posts = [...state.posts, ...action.payload];
-    },
-    [__accruePostsByPage.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-
-    // __getPost
-    [__getPost.pending]: (state, action) => {
-      state.isLoading = true;
-    },
-    [__getPost.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.post = action.payload;
-    },
-    [__getPost.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-
     // __writePost
     [__writePost.pending]: (state, action) => {
       state.isLoading = true;
@@ -135,6 +108,14 @@ const postsSlice = createSlice({
       state.isLoading = false;
     },
 
+    // __writePost
+    [__writePost.pending]: (state, action) => {
+      state.isLoading = true;
+    },
+    [__writePost.fulfilled]: (state, action) => {
+      state.posts = [action.payload, ...state.posts];
+      state.isLoading = false;
+    },
     [__writePost.rejected]: (state, action) => {
       state.error = action.payload;
       state.isLoading = false;
@@ -143,3 +124,4 @@ const postsSlice = createSlice({
 });
 
 export default postsSlice.reducer;
+
