@@ -109,7 +109,7 @@ function PostWrite({ id = false }) {
               </select>
             </li>
             <li>
-              <div>이름</div>
+              <div>이름1</div>
               <input
                 type="text"
                 name="author"
